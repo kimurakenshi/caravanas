@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import type { Children } from 'react';
-import AppNav from '../components/app-nav';
-import Sidebar from '../components/sidebar';
+import AppNav from '../../components/app-nav/index';
+import Sidebar from '../../components/sidebar/index';
 
 export default class App extends Component {
   props: {

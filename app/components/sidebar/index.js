@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
@@ -13,6 +14,9 @@ function Sidebar(props) {
         iconClassNameRight="muidocs-icon-navigation-expand-more"
         onLeftIconButtonTouchTap={props.closeSidebar}
       />
+
+      <Link to="/" > Caravanas </Link>
+      <Link to="/companies" > Companies </Link>
     </Drawer>
   );
 }
