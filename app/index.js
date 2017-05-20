@@ -8,7 +8,7 @@ import { AppContainer } from 'react-hot-loader';
 import { getInitialStorage } from './storage/base-storage';
 import Root from './containers/root';
 import { configureStore, history } from './store/configureStore';
-import './app.global.css';
+import 'app/styles/app.global.scss';
 
 getInitialStorage()
   .then((initialStorage) => {
@@ -17,7 +17,6 @@ getInitialStorage()
     // Needed for onTouchTap
     // http://stackoverflow.com/a/34015469/988941
     injectTapEventPlugin();
-
     render(
       <MuiThemeProvider>
         <AppContainer>

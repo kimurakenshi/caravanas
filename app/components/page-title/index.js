@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './style/page-title.scss';
 
-export default function (props) {
+export default function PageTitle(props) {
   return (
-    <h1 className={styles['page-title']}>
+    <h2 className={styles['page-title']}>
       {props.title}
-    </h1>
+    </h2>
   );
 }
