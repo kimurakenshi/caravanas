@@ -6,7 +6,8 @@ import { getSettings } from '../../reducers';
 
 function HomeRoute({ component: Component, ...rest }) {
   return (
-    <Route {...rest} render={props => (
+    <Route
+      {...rest} render={props => (
         rest.defaultCompanyId ? (
           <Component {...props} />
         ) : (
