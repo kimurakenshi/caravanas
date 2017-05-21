@@ -10,7 +10,7 @@ window.resetSettings = save;
 const initialSettings = {
   settingsReducer: {
     data: {
-      defaultCompanyId: null, //@todo: revert to null
+      activeCompanyId: 'cf43db2c-1394-4c88-8e39-244ca418e091', //@todo: revert to null
     },
     app: {
       sidebarOpen: true,

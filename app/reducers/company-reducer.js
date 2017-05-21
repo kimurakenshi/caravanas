@@ -57,5 +57,5 @@ export default function companyReducer(state = initialState, action) {
 }
 
 export function getCompanies(state) {
-  return state.companies;
+  return state;
 }
