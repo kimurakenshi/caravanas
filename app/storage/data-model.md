@@ -7,7 +7,8 @@ I high level representation of the data model that will be consumed for the appl
 ```javascript
 {
     id,
-    name
+    name,
+    description,
 }
 ```
 

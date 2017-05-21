@@ -18,5 +18,3 @@ export function receiveSettings(settings) {
     type: SETTINGS_RECEIVED,
   };
 }
-
-
