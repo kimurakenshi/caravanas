@@ -21,7 +21,7 @@ export function receiveCreate(company) {
   };
 }
 
-export function createCompany(company) {
+export default function createCompany(company) {
   return (dispatch) => {
     dispatch(requestCreate());
 

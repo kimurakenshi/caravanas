@@ -21,7 +21,7 @@ export function receiveFetch(companies) {
   };
 }
 
-export function fetchCompanies() {
+export default function fetchCompanies() {
   return (dispatch) => {
     dispatch(requestFetch());
 

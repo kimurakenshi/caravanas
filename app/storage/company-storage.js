@@ -8,12 +8,9 @@ export function create(company) {
 }
 
 
-export function remove(company) {
-  // @todo: get the companies and remove the current.
-  const companies = [company];
-
+export function removeById(companyId) {
   return baseStorage
-    .save(COMPANY_STORAGE_KEY, companies)
+    .removeById(COMPANY_STORAGE_KEY, companyId, STORAGE_TYPE.ARRAY)
   ;
 }
 

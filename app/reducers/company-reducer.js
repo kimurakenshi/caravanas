@@ -4,6 +4,9 @@ const {
   COMPANY_CREATE_RECEIVED,
   COMPANY_CREATE_REJECT,
   COMPANY_CREATE_REQUEST,
+  COMPANY_DELETE_RECEIVED,
+  COMPANY_DELETE_REJECT,
+  COMPANY_DELETE_REQUEST,
   COMPANY_FETCH_RECEIVED,
   COMPANY_FETCH_REJECT,
   COMPANY_FETCH_REQUEST,
@@ -18,6 +21,7 @@ const initialState = {
 export default function companyReducer(state = initialState, action) {
   switch (action.type) {
     case COMPANY_CREATE_REQUEST:
+    case COMPANY_DELETE_REQUEST:
     case COMPANY_FETCH_REQUEST: {
       return {
         ...state,
@@ -41,7 +45,16 @@ export default function companyReducer(state = initialState, action) {
       };
     }
 
+    case COMPANY_DELETE_RECEIVED: {
+      return {
+        companies: state.companies.filter((company) => company.id !== action.companyId),
+        isFetching: false,
+        error: null,
+      };
+    }
+
     case COMPANY_CREATE_REJECT:
+    case COMPANY_DELETE_REJECT:
     case COMPANY_FETCH_REJECT: {
       return {
         ...state,

@@ -56,6 +56,10 @@ function getStorageDataForType(currentStorage, newData, storageType) {
     storageData = getInitialValueForStorage(storageType);
   }
 
+  if (!newData) {
+    return storageData;
+  }
+
   // Update the storage based on the storage type.
   if (storageType === STORAGE_TYPE.ARRAY) {
     storageData.push(newData);
@@ -88,6 +92,25 @@ export function create(key, item, storageType) {
       .catch((err) => reject(err));
   });
 }
+
+export function removeById(key, id, storageType) {
+  return new Promise((resolve, reject) => {
+    get(key)
+      .then((data) => {
+        const newStorage = getStorageDataForType(data, undefined, storageType);
+
+        const updatedStorage = newStorage.filter((item) => item.id !== id);
+
+        save(key, updatedStorage)
+          .then(() => {
+            resolve(id);
+          })
+          .catch((err) => reject(err));
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 
 function save(key, data) {
   return new Promise((resolve, reject) => {

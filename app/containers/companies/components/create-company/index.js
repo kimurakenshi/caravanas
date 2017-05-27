@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createCompany } from 'app/actions/company-actions/company-create-action';
+import { createCompany } from 'app/actions/company-actions';
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';

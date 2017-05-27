@@ -1,4 +1,12 @@
+@import '~styles/colors';
+
 .company-list-remove
 {
   color: #00BCD4;
+}
+
+.company-list-empty
+{
+  color: $secondary-color;
+  text-align: center;
 }

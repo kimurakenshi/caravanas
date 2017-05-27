@@ -11,7 +11,9 @@ export default class Companies extends Component {
 
         <CreateCompany />
 
-        <CompanyList />
+        <div className={styles['companies-list']}>
+          <CompanyList />
+        </div>
       </div>
     );
   }
