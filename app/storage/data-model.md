@@ -43,6 +43,7 @@ A caravana entity can belong to one and only one company entity.
 		id,
 		idCompany,
 		number,
+		description,
 	},
 	...
 ]
