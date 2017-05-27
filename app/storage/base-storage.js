@@ -8,13 +8,11 @@ const storage = require('electron-json-storage');
 window.resetSettings = save;
 
 const initialSettings = {
-  settingsReducer: {
-    data: {
-      activeCompanyId: 'cf43db2c-1394-4c88-8e39-244ca418e091', //@todo: revert to null
-    },
-    app: {
-      sidebarOpen: true,
-    }
+  data: {
+    activeCompanyId: null,
+  },
+  app: {
+    sidebarOpen: true,
   }
 };
 
@@ -112,7 +110,7 @@ export function removeById(key, id, storageType) {
 }
 
 
-function save(key, data) {
+export function save(key, data) {
   return new Promise((resolve, reject) => {
     storage.set(key, data, (error) => {
       if (error) {
@@ -129,13 +127,13 @@ export function getInitialStorage() {
     get(SETTINGS_STORAGE_KEY)
       .then((data) => {
         if (data) {
-          resolve(data);
+          resolve({ settingsReducer: data });
 
           return;
         }
 
         save(SETTINGS_STORAGE_KEY, initialSettings)
-          .then((initialData) => resolve(initialData))
+          .then((initialData) => resolve({ settingsReducer: initialData }))
 
           .catch(() => {
             reject('Error al inicializar la aplicación.');

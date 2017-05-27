@@ -1,4 +1,6 @@
 import { create } from 'app/storage/company-storage';
+import { saveSettings } from 'app/actions/settings-actions';
+import { getSettings } from 'app/reducers';
 import { COMPANY_CREATE_RECEIVED, COMPANY_CREATE_REJECT, COMPANY_CREATE_REQUEST } from '../action-types';
 
 export function requestCreate() {
@@ -22,8 +24,10 @@ export function receiveCreate(company) {
 }
 
 export default function createCompany(company) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(requestCreate());
+
+    const settings = getSettings(getState());
 
     const newCompany = {
       name: company.name,
@@ -33,6 +37,15 @@ export default function createCompany(company) {
     return create(newCompany)
       .then((json) => {
         dispatch(receiveCreate(json));
+
+        if (!settings.data.activeCompanyId) {
+          const newSettings = {
+            data: {
+              activeCompanyId: json.id,
+            },
+          };
+          dispatch(saveSettings(newSettings));
+        }
       })
 
       .catch((error) => {

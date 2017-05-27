@@ -80,7 +80,7 @@ user. Everything else will be fetched while needed.
 ```javascript
 	{
 		data: {
-		    defaultCompanyId, // represents the company that will be set by default if apply.
+		    activeCompanyId, // represents the company that will be set by default if apply.
 		},
 		app: {
 		    sidebarOpen,

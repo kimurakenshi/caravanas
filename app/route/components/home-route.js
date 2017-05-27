@@ -8,7 +8,7 @@ function HomeRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest} render={props => (
-        rest.defaultCompanyId ? (
+        rest.activeCompanyId ? (
           <Component {...props} />
         ) : (
           <Redirect to="/companies" />
@@ -22,7 +22,7 @@ function mapStateToProps(state) {
   const settings = getSettings(state);
 
   return {
-    defaultCompanyId: settings.data.defaultCompanyId,
+    activeCompanyId: settings.data.activeCompanyId,
   };
 }
 

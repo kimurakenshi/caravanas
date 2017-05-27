@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { removeCompany, fetchCompanies } from 'app/actions/company-actions';
 import { getCompanies, getSettings } from 'app/reducers';
+import { saveSettings } from 'app/actions/settings-actions';
 import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/company-list.scss';
@@ -20,20 +21,26 @@ class CompanyList extends Component {
   constructor(props) {
     super(props);
 
-    this.removeCompany = this.removeCompany.bind(this);
+    this.activateCompany = this.activateCompany.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchCompanies();
   }
 
-  removeCompany(companyId) {
-    this.props.removeCompany(companyId);
+  activateCompany(companyId) {
+    const settings = {
+      data: {
+        activeCompanyId: companyId,
+      },
+    };
+
+    this.props.saveSettings(settings);
   }
 
   render() {
     return (
-      <div className={styles['create-list']}>
+      <div className={styles['company-list']}>
         <PageSubtitle title="Empresas" />
 
         {this.props.companies.length === 0 && (
@@ -62,11 +69,25 @@ class CompanyList extends Component {
                     <TableRowColumn>{company.name}</TableRowColumn>
                     <TableRowColumn>{company.description}</TableRowColumn>
                     <TableRowColumn>
-                      <Toggle defaultToggled={company.id === this.props.activeCompanyId} />
+                      {(() => {
+                        if (company.id === this.props.activeCompanyId) {
+                          return (
+                            <span className={styles['company-list-active']}>
+                              ACTIVA
+                            </span>
+                          );
+                        }
+
+                        return (
+                          <Toggle
+                            onClick={() => { this.activateCompany(company.id); }}
+                          />
+                        );
+                      })()}
                     </TableRowColumn>
                     <TableRowColumn>
                       <IconButton iconStyle={{ color: '#FF4081' }}>
-                        <ActionRemove onClick={() => { this.removeCompany(company.id); }} />
+                        <ActionRemove onClick={() => { this.props.removeCompany(company.id); }} />
                       </IconButton>
                     </TableRowColumn>
                   </TableRow>
@@ -96,5 +117,6 @@ export default connect(
   {
     fetchCompanies,
     removeCompany,
+    saveSettings,
   }
 )(CompanyList);
