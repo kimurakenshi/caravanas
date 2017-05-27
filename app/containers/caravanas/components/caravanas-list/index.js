@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { fetchCaravana } from 'app/actions/caravana-actions';
+import { fetchCaravanas } from 'app/actions/caravana-actions';
 import { getCaravanas } from 'app/reducers';
 import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
-import styles from './style/caravana-list.scss';
+import styles from './style/caravanas-list.scss';
 import {
   Table,
   TableBody,
@@ -16,10 +16,6 @@ import IconButton from 'material-ui/IconButton';
 import ActionRemove from 'material-ui/svg-icons/content/delete-sweep';
 
 class CaravanaList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.fetchCaravanas();
   }
@@ -42,7 +38,7 @@ class CaravanaList extends Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn>Numero</TableHeaderColumn>
+                <TableHeaderColumn>Número</TableHeaderColumn>
                 <TableHeaderColumn>Descripción</TableHeaderColumn>
                 <TableHeaderColumn>Acciones</TableHeaderColumn>
               </TableRow>
@@ -61,7 +57,6 @@ class CaravanaList extends Component {
                   </TableRow>
                 );
               })}
-
             </TableBody>
           </Table>
         )}
@@ -74,7 +69,7 @@ function mapStateToProps(state) {
   const caravanasEntity = getCaravanas(state);
 
   return {
-    companies: caravanasEntity.caravanas,
+    caravanas: caravanasEntity.caravanas,
   };
 }
 

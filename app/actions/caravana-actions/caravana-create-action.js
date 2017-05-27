@@ -1,5 +1,4 @@
 import { create } from 'app/storage/caravana-storage';
-import { getSettings } from 'app/reducers';
 import { CARAVANA_CREATE_RECEIVED, CARAVANA_CREATE_REJECT, CARAVANA_CREATE_REQUEST } from '../action-types';
 
 export function requestCreate() {
@@ -15,26 +14,18 @@ export function rejectCreate(error) {
   };
 }
 
-export function receiveCreate(company) {
+export function receiveCreate(caravana) {
   return {
-    company,
+    caravana,
     type: CARAVANA_CREATE_RECEIVED,
   };
 }
 
 export default function createCaravana(caravana) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(requestCreate());
 
-    const settings = getSettings(getState());
-
-    const newCaravana = {
-      description: caravana.description,
-      idCompany: settings.data.activeCompanyId,
-      number: caravana.name,
-    };
-
-    return create(newCaravana)
+    return create(caravana)
       .then((json) => {
         dispatch(receiveCreate(json));
       })

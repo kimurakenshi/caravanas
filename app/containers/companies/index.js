@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './style/companies.scss';
 import { CreateCompany, CompanyList } from './components';
 import PageTitle from '../../components/page-title';
 
-export default class Companies extends Component {
-  render() {
-    return (
-      <div className={styles.companies}>
-        <PageTitle title="Empresas" />
+export default function Companies() {
+  return (
+    <div className={styles.companies}>
+      <PageTitle title="Empresas" />
 
-        <CreateCompany />
+      <CreateCompany />
 
-        <div className={styles['companies-list']}>
-          <CompanyList />
-        </div>
+      <div className={styles['companies-list']}>
+        <CompanyList />
       </div>
-    );
-  }
+    </div>
+  );
 }

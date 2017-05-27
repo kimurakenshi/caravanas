@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
+import styles from './style/caravanas.scss';
+import { CreateCaravana, CaravanaList } from './components';
+import PageTitle from '../../components/page-title';
 
-class Caravanas extends Component {
-  // componentDidMount() {
-  //   this.props.history.push('/companies');
-  // }
+export default function Caravanas() {
+  return (
+    <div className={styles.caravanas}>
+      <PageTitle title="Caravanas" />
 
-  render() {
-    return (
-      <h1>Caravanas</h1>
-    );
-  }
+      <CreateCaravana />
+
+      <div className={styles['caravanas-list']}>
+        <CaravanaList />
+      </div>
+    </div>
+  );
 }
-
-export default withRouter(Caravanas);
