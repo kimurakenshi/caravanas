@@ -35,6 +35,7 @@ export default function caravanaReducer(state = initialState, action) {
 
     case CARAVANA_FETCH_RECEIVED: {
       return {
+        ...state,
         caravanas: action.caravanas,
         isFetching: false,
         error: null,
@@ -42,9 +43,15 @@ export default function caravanaReducer(state = initialState, action) {
     }
 
     case CARAVANA_LIST_SET_MODE: {
+      const {
+        viewMode,
+        editCaravanaId = null,
+      } = action.payload;
+
       return {
         ...state,
-        ...action.payload,
+        viewMode,
+        editCaravanaId,
       };
     }
 

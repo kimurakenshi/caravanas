@@ -37,11 +37,11 @@ class CaravanaList extends Component {
   }
 
   editCaravana(caravanaId) {
-    this.props.setListMode(caravanaId, CARAVANA_LIST_MODE.EDIT_MODE);
+    this.props.setListMode(CARAVANA_LIST_MODE.EDIT_MODE, caravanaId);
   }
 
   viewCaravanas() {
-    this.props.setListMode(null, CARAVANA_LIST_MODE.VIEW_MODE);
+    this.props.setListMode(CARAVANA_LIST_MODE.VIEW_MODE);
   }
 
   removeCaravana(caravanaId) {
