@@ -14,7 +14,7 @@ const {
   COMPANY_SAVE_REQUEST,
 } = actionTypes;
 
-const initialState = {
+export const initialState = {
   companies: [],
   editCompanyId: null,
   error: null,
@@ -48,6 +48,7 @@ export default function companyReducer(state = initialState, action) {
 
     case COMPANY_FETCH_RECEIVED: {
       return {
+        ...state,
         companies: action.companies,
         isFetching: false,
         error: null,
@@ -70,6 +71,7 @@ export default function companyReducer(state = initialState, action) {
 
     case COMPANY_DELETE_RECEIVED: {
       return {
+        ...state,
         companies: state.companies.filter((company) => company.id !== action.companyId),
         isFetching: false,
         error: null,

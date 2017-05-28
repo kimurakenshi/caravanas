@@ -25,10 +25,14 @@ export default function saveSettings(settings) {
   return (dispatch, getState) => {
     dispatch(requestSaveSettings());
 
-    const currentSettings = getSettings(getState());
+    const {
+      app,
+      data,
+    } = getSettings(getState());
 
     const newSettings = {
-      ...currentSettings,
+      app,
+      data,
       ...settings,
     };
 

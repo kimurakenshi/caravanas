@@ -1,7 +1,8 @@
 import isEmpty from 'lodash/isEmpty';
 import has from 'lodash/has';
 import uuid from 'uuid';
-import { SETTINGS_STORAGE_KEY, STORAGE_TYPE } from './enum';
+import { SETTINGS_STORAGE_KEY, STORAGE_TYPE, COMPANY_STORAGE_KEY } from './enum';
+import { initialState } from 'app/reducers/company-reducer';
 
 const storage = require('electron-json-storage');
 
@@ -138,12 +139,32 @@ function updateStorage(key, data) {
   });
 }
 
+function getCompaniesInitialState(companiesData) {
+  const companiesInitialValue = !isEmpty(companiesData) ? companiesData : [];
+
+  return Object.assign({}, initialState, { companies: companiesInitialValue });
+}
+
 export function getInitialStorage() {
   return new Promise((resolve, reject) => {
     get(SETTINGS_STORAGE_KEY)
-      .then((data) => {
-        if (data) {
-          resolve({ settingsReducer: data });
+      .then((settings) => {
+        if (settings) {
+          if (settings.data.activeCompanyId) {
+            get(COMPANY_STORAGE_KEY)
+              .then((companies) => {
+                resolve({
+                  companyReducer: getCompaniesInitialState(companies),
+                  settingsReducer: settings,
+                });
+              })
+              .catch(() => {
+                reject('Error al inicializar la aplicación.');
+              })
+            ;
+          } else {
+            resolve({ settingsReducer: settings });
+          }
 
           return;
         }

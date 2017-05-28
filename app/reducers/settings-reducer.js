@@ -32,7 +32,6 @@ export default function settingsReducer(state = initialState, action) {
 
     case SETTINGS_SAVE_RECEIVED: {
       return {
-        state,
         ...action.settings,
         isFetching: false,
         error: null,
@@ -41,7 +40,7 @@ export default function settingsReducer(state = initialState, action) {
 
     case SETTINGS_FETCH_RECEIVED: {
       return {
-        state,
+        ...state,
         ...action.settings,
       };
     }
