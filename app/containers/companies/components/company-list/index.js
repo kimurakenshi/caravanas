@@ -63,37 +63,35 @@ class CompanyList extends Component {
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
-              {this.props.companies.map((company) => {
-                return (
-                  <TableRow key={company.id}>
-                    <TableRowColumn>{company.name}</TableRowColumn>
-                    <TableRowColumn>{company.description}</TableRowColumn>
-                    <TableRowColumn>
-                      {(() => {
-                        if (company.id === this.props.activeCompanyId) {
-                          return (
-                            <span className={styles['company-list-active']}>
+              {this.props.companies.map((company) => (
+                <TableRow key={company.id}>
+                  <TableRowColumn>{company.name}</TableRowColumn>
+                  <TableRowColumn>{company.description}</TableRowColumn>
+                  <TableRowColumn>
+                    {(() => {
+                      if (company.id === this.props.activeCompanyId) {
+                        return (
+                          <span className={styles['company-list-active']}>
                               ACTIVA
                             </span>
-                          );
-                        }
-
-                        return (
-                          <Toggle
-                            onClick={() => { this.activateCompany(company.id); }}
-                          />
                         );
-                      })()}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton iconStyle={{ color: '#FF4081' }}>
-                        <ActionRemove onClick={() => { this.props.removeCompany(company.id); }} />
-                      </IconButton>
-                    </TableRowColumn>
-                  </TableRow>
-                );
-              })}
+                      }
 
+                      return (
+                        <Toggle
+                          onClick={() => { this.activateCompany(company.id); }}
+                        />
+                      );
+                    })()}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    <IconButton iconStyle={{ color: '#FF4081' }}>
+                      {/* @todo: validate movements and caravanas before deleting*/}
+                      <ActionRemove onClick={() => { this.props.removeCompany(company.id); }} />
+                    </IconButton>
+                  </TableRowColumn>
+                </TableRow>
+                ))}
             </TableBody>
           </Table>
         )}

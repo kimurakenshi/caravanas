@@ -42,6 +42,8 @@ class CreateCaravana extends Component {
   validateForm() {
     const isValid = !isEmpty(this.nroInput.getValue());
 
+    // @todo: check if the caravana exist before continuing here.
+
     this.setState({
       errorMessage: isValid ? '' : 'El número de la caravana es requerido',
       isValid,
