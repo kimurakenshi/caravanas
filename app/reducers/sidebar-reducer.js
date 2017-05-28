@@ -1,4 +1,4 @@
-import { SIDEBAR_CLOSE, SIDEBAR_OPEN } from '../actions/action-types';
+import { SIDEBAR_TOGGLE } from '../actions/action-types';
 
 const initialState = {
   isOpen: false,
@@ -6,12 +6,10 @@ const initialState = {
 
 export default function sidebarReducer(state = initialState, action) {
   switch (action.type) {
-    case SIDEBAR_CLOSE: {
-      return initialState;
-    }
-
-    case SIDEBAR_OPEN: {
-      return { isOpen: true };
+    case SIDEBAR_TOGGLE: {
+      return {
+        isOpen: !state.isOpen,
+      };
     }
 
     default: {

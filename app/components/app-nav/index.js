@@ -2,7 +2,7 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import { getCompanyById, getSettings } from 'app/reducers';
 import { connect } from 'react-redux';
-import { openSidebar } from '../../actions/sidebar-action';
+import toggleSidebar from '../../actions/sidebar-action';
 import get from 'lodash/get';
 
 function AppNav(props) {
@@ -12,7 +12,7 @@ function AppNav(props) {
     <AppBar
       title={appTitle}
       iconClassNameRight="muidocs-icon-navigation-expand-more"
-      onLeftIconButtonTouchTap={props.openSidebar}
+      onLeftIconButtonTouchTap={props.toggleSidebar}
     />
   );
 }
@@ -35,7 +35,7 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
-    openSidebar,
+    toggleSidebar,
   }
 )(AppNav);
 

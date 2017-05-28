@@ -1,24 +1,38 @@
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import React from 'react';
+import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
+import MenuItem from 'material-ui/MenuItem';
 import { isSidebarOpen } from '../../reducers';
-import { closeSidebar } from '../../actions/sidebar-action';
+import toggleSidebar from '../../actions/sidebar-action';
 
-function Sidebar(props) {
-  return (
-    <Drawer open={props.isOpen}>
-      <AppBar
-        title="Caravanas"
-        iconClassNameRight="muidocs-icon-navigation-expand-more"
-        onLeftIconButtonTouchTap={props.closeSidebar}
-      />
+class Sidebar extends Component {
+  redirect(path) {
+    this.props.history.push(path);
+  }
 
-      <Link to="/" > Caravanas </Link>
-      <Link to="/companies" > Companies </Link>
-    </Drawer>
-  );
+  render() {
+    return (
+      <Drawer
+        docked={false}
+        open={this.props.isOpen}
+      >
+        <AppBar
+          title="Caravanas"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          onLeftIconButtonTouchTap={this.props.toggleSidebar}
+        />
+        <MenuItem onClick={() => this.redirect('/')}>
+          Caravanas
+        </MenuItem>
+        <MenuItem onClick={() => this.redirect('/companies')}>
+          Companies
+        </MenuItem>
+      </Drawer>
+    );
+  }
 }
 
 function mapStateToProps(state) {
@@ -27,9 +41,15 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
+Sidebar.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(connect(
   mapStateToProps,
   {
-    closeSidebar,
+    toggleSidebar,
   }
-)(Sidebar);
+)(Sidebar));
