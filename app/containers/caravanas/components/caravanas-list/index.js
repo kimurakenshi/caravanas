@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import EditCaravana from '../edit-caravana';
 import { fetchCaravanas, deleteCaravana } from 'app/actions/caravana-actions';
 import { getCaravanas } from 'app/reducers';
 import React, { Component } from 'react';
@@ -23,6 +24,10 @@ class CaravanaList extends Component {
     this.addCaravanaToMovement = this.addCaravanaToMovement.bind(this);
     this.editCaravana = this.editCaravana.bind(this);
     this.removeCaravana = this.removeCaravana.bind(this);
+
+    this.state = {
+      editMode: false,
+    };
   }
   componentDidMount() {
     this.props.fetchCaravanas();
@@ -33,7 +38,7 @@ class CaravanaList extends Component {
   }
 
   editCaravana(caravanaId) {
-
+    this.setState({ editMode: true });
   }
 
   removeCaravana(caravanaId) {
@@ -43,6 +48,10 @@ class CaravanaList extends Component {
   }
 
   render() {
+    if (this.state.editMode) {
+      return <EditCaravana />;
+    }
+
     return (
       <div className={styles['caravana-list']}>
         <PageSubtitle title="Caravanas" />
@@ -75,9 +84,6 @@ class CaravanaList extends Component {
                       <IconButton iconStyle={{ color: '#00BCD4' }}>
                         <ActionEdit onClick={() => { this.editCaravana(caravana.id); }} />
                       </IconButton>
-                      {/*<IconButton iconStyle={{ color: '#00BCD4' }}>*/}
-                        {/*<ActionRemove onClick={() => { this.addCaravanaToMovement(caravana.id); }} />*/}
-                      {/*</IconButton>*/}
                       <IconButton iconStyle={{ color: '#FF4081' }}>
                         <ActionRemove onClick={() => { this.removeCaravana(caravana.id); }} />
                       </IconButton>
