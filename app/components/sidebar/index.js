@@ -20,7 +20,7 @@ class Sidebar extends Component {
         open={this.props.isOpen}
       >
         <AppBar
-          title="Caravanas"
+          title="Menu"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.props.toggleSidebar}
         />
