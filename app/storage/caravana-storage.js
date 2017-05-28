@@ -1,9 +1,9 @@
 import { CARAVANAS_STORAGE_KEY, STORAGE_TYPE } from './enum';
 import * as baseStorage from './base-storage';
 
-export function create(caravana) {
+export function save(caravana) {
   return baseStorage
-    .create(CARAVANAS_STORAGE_KEY, caravana, STORAGE_TYPE.ARRAY)
+    .save(CARAVANAS_STORAGE_KEY, caravana, STORAGE_TYPE.ARRAY)
   ;
 }
 

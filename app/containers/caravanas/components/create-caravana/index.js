@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createCaravana } from 'app/actions/caravana-actions';
+import { saveCaravana } from 'app/actions/caravana-actions';
 import { getSettings, hasCaravana } from 'app/reducers';
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
@@ -39,7 +39,7 @@ class CreateCaravana extends Component {
 
   onCreate() {
     if (this.validateForm()) {
-      this.props.createCaravana({
+      this.props.saveCaravana({
         description: this.state.description,
         idCompany: this.props.idCompany,
         number: this.getCaravanaNumber(),
@@ -134,7 +134,6 @@ class CreateCaravana extends Component {
             />
 
             <RaisedButton
-              className={styles['create-caravana-action']}
               label="Crear"
               onClick={this.onCreate}
               primary
@@ -169,13 +168,13 @@ function mapStateToProps(state) {
 
   return {
     idCompany: settings.data.activeCompanyId,
-    isExistentCaravana: (caravanaId) => hasCaravana(state, caravanaId),
+    isExistentCaravana: (number) => hasCaravana(state, number),
   };
 }
 
 export default connect(
   mapStateToProps,
   {
-    createCaravana,
+    saveCaravana,
   }
 )(CreateCaravana);

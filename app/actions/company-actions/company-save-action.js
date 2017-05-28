@@ -1,29 +1,29 @@
-import { create } from 'app/storage/company-storage';
+import { save } from 'app/storage/company-storage';
 import { saveSettings } from 'app/actions/settings-actions';
 import { getSettings } from 'app/reducers';
-import { COMPANY_CREATE_RECEIVED, COMPANY_CREATE_REJECT, COMPANY_CREATE_REQUEST } from '../action-types';
+import { COMPANY_SAVE_RECEIVED, COMPANY_SAVE_REJECT, COMPANY_SAVE_REQUEST } from '../action-types';
 
 export function requestCreate() {
   return {
-    type: COMPANY_CREATE_REQUEST,
+    type: COMPANY_SAVE_REQUEST,
   };
 }
 
 export function rejectCreate(error) {
   return {
     error,
-    type: COMPANY_CREATE_REJECT,
+    type: COMPANY_SAVE_REJECT,
   };
 }
 
 export function receiveCreate(company) {
   return {
     company,
-    type: COMPANY_CREATE_RECEIVED,
+    type: COMPANY_SAVE_RECEIVED,
   };
 }
 
-export default function createCompany(company) {
+export default function saveCompany(company) {
   return (dispatch, getState) => {
     dispatch(requestCreate());
 
@@ -34,7 +34,7 @@ export default function createCompany(company) {
       description: company.description,
     };
 
-    return create(newCompany)
+    return save(newCompany)
       .then((json) => {
         dispatch(receiveCreate(json));
 

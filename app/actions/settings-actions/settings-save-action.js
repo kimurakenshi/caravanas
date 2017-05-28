@@ -1,5 +1,5 @@
 import { getSettings } from 'app/reducers';
-import { save } from 'app/storage/settings-storage';
+import save from 'app/storage/settings-storage';
 import { SETTINGS_SAVE_RECEIVED, SETTINGS_SAVE_REJECT, SETTINGS_SAVE_REQUEST } from '../action-types';
 
 export function requestSaveSettings() {

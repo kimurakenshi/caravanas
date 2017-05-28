@@ -1,9 +1,9 @@
 import * as actionTypes from '../actions/action-types';
 
 const {
-  COMPANY_CREATE_RECEIVED,
-  COMPANY_CREATE_REJECT,
-  COMPANY_CREATE_REQUEST,
+  COMPANY_SAVE_RECEIVED,
+  COMPANY_SAVE_REJECT,
+  COMPANY_SAVE_REQUEST,
   COMPANY_DELETE_RECEIVED,
   COMPANY_DELETE_REJECT,
   COMPANY_DELETE_REQUEST,
@@ -20,7 +20,7 @@ const initialState = {
 
 export default function companyReducer(state = initialState, action) {
   switch (action.type) {
-    case COMPANY_CREATE_REQUEST:
+    case COMPANY_SAVE_REQUEST:
     case COMPANY_DELETE_REQUEST:
     case COMPANY_FETCH_REQUEST: {
       return {
@@ -37,7 +37,7 @@ export default function companyReducer(state = initialState, action) {
       };
     }
 
-    case COMPANY_CREATE_RECEIVED: {
+    case COMPANY_SAVE_RECEIVED: {
       return {
         companies: state.companies.concat(action.company),
         isFetching: false,
@@ -53,7 +53,7 @@ export default function companyReducer(state = initialState, action) {
       };
     }
 
-    case COMPANY_CREATE_REJECT:
+    case COMPANY_SAVE_REJECT:
     case COMPANY_DELETE_REJECT:
     case COMPANY_FETCH_REJECT: {
       return {

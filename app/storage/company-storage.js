@@ -1,9 +1,9 @@
 import { COMPANY_STORAGE_KEY, STORAGE_TYPE } from './enum';
 import * as baseStorage from './base-storage';
 
-export function create(company) {
+export function save(company) {
   return baseStorage
-    .create(COMPANY_STORAGE_KEY, company, STORAGE_TYPE.ARRAY)
+    .save(COMPANY_STORAGE_KEY, company, STORAGE_TYPE.ARRAY)
   ;
 }
 

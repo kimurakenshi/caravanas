@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createCompany } from 'app/actions/company-actions';
+import { saveCompany } from 'app/actions/company-actions';
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -21,7 +21,7 @@ class CreateCompany extends Component {
 
   onCreate() {
     if (this.validateForm()) {
-      this.props.createCompany({
+      this.props.saveCompany({
         name: this.nameInput.getValue(),
         description: this.descInput.getValue(),
       });
@@ -78,6 +78,6 @@ class CreateCompany extends Component {
 export default connect(
   undefined,
   {
-    createCompany,
+    saveCompany,
   }
 )(CreateCompany);

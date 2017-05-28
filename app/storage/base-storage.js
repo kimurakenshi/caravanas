@@ -5,7 +5,7 @@ import { SETTINGS_STORAGE_KEY, STORAGE_TYPE } from './enum';
 
 const storage = require('electron-json-storage');
 
-window.resetSettings = save;
+window.resetSettings = updateStorage;
 
 const initialSettings = {
   data: {
@@ -46,7 +46,7 @@ function getInitialValueForStorage(storageType) {
   }
 }
 
-function getStorageDataForType(currentStorage, newData, storageType) {
+function getStorageDataForType(currentStorage, storageType) {
   let storageData = currentStorage;
 
   // Initialize the storage if is empty.
@@ -54,34 +54,44 @@ function getStorageDataForType(currentStorage, newData, storageType) {
     storageData = getInitialValueForStorage(storageType);
   }
 
-  if (!newData) {
-    return storageData;
-  }
-
-  // Update the storage based on the storage type.
-  if (storageType === STORAGE_TYPE.ARRAY) {
-    storageData.push(newData);
-  } else {
-    storageData = newData;
-  }
-
   return storageData;
 }
 
-export function create(key, item, storageType) {
+/**
+ * Create or Update an item in the storage based on the storageType and
+ * the item to save. If the item has not an id property is considered new
+ * and add it as a new item to the correspodent storage based on the storage key.
+ * @param key
+ * @param item
+ * @param storageType
+ * @returns {Promise}
+ */
+export function save(key, item, storageType) {
   return new Promise((resolve, reject) => {
     const itemToSave = Object.assign({}, item);
+    const isNew = !has(item, 'id');
 
     // Generate id for new items.
-    if (!has(item, 'id')) {
+    if (isNew) {
       itemToSave['id'] = uuid();
     }
 
     get(key)
       .then((data) => {
-        const newStorage = getStorageDataForType(data, itemToSave, storageType);
+        let storageData = getStorageDataForType(data, storageType);
 
-        save(key, newStorage)
+        // Update the storage based on the storage type.
+        if (storageType === STORAGE_TYPE.ARRAY) {
+          if (!isNew) {
+            storageData = storageData.filter((item) => item.id !== itemToSave.id);
+          }
+
+          storageData.push(itemToSave);
+        } else {
+          storageData = itemToSave;
+        }
+
+        updateStorage(key, storageData)
           .then(() => {
             resolve(itemToSave);
           })
@@ -99,7 +109,7 @@ export function removeById(key, id, storageType) {
 
         const updatedStorage = newStorage.filter((item) => item.id !== id);
 
-        save(key, updatedStorage)
+        updateStorage(key, updatedStorage)
           .then(() => {
             resolve(id);
           })
@@ -110,7 +120,13 @@ export function removeById(key, id, storageType) {
 }
 
 
-export function save(key, data) {
+/**
+ * Update an storage defined by the key with the provided data.
+ * @param key
+ * @param data
+ * @returns {Promise}
+ */
+function updateStorage(key, data) {
   return new Promise((resolve, reject) => {
     storage.set(key, data, (error) => {
       if (error) {
@@ -132,7 +148,7 @@ export function getInitialStorage() {
           return;
         }
 
-        save(SETTINGS_STORAGE_KEY, initialSettings)
+        updateStorage(SETTINGS_STORAGE_KEY, initialSettings)
           .then((initialData) => resolve({ settingsReducer: initialData }))
 
           .catch(() => {

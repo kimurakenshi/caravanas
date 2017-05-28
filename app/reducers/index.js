@@ -23,12 +23,16 @@ export function getSettings(state) {
   return fromSettings.getSettings(state.settingsReducer);
 }
 
+export function getCaravanaById(state, id) {
+  return fromCaravana.getCaravanaById(state.caravanaReducer, id);
+}
+
 export function getCaravanas(state) {
   return fromCaravana.getCaravanas(state.caravanaReducer);
 }
 
-export function hasCaravana(state, caravanaNumber) {
-  return fromCaravana.hasCaravana(state.caravanaReducer, caravanaNumber);
+export function hasCaravana(state, caravanaNumber, excludeId = null) {
+  return fromCaravana.hasCaravana(state.caravanaReducer, caravanaNumber, excludeId);
 }
 
 export function getCompanies(state) {

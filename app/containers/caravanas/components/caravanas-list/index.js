@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import EditCaravana from '../edit-caravana';
-import { fetchCaravanas, deleteCaravana } from 'app/actions/caravana-actions';
+import { fetchCaravanas, deleteCaravana, setListMode } from 'app/actions/caravana-actions';
 import { getCaravanas } from 'app/reducers';
 import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/caravanas-list.scss';
+import CARAVANA_LIST_MODE from './enum';
+
 import {
   Table,
   TableBody,
@@ -23,11 +25,8 @@ class CaravanaList extends Component {
 
     this.addCaravanaToMovement = this.addCaravanaToMovement.bind(this);
     this.editCaravana = this.editCaravana.bind(this);
+    this.viewCaravanas = this.viewCaravanas.bind(this);
     this.removeCaravana = this.removeCaravana.bind(this);
-
-    this.state = {
-      editMode: false,
-    };
   }
   componentDidMount() {
     this.props.fetchCaravanas();
@@ -38,7 +37,11 @@ class CaravanaList extends Component {
   }
 
   editCaravana(caravanaId) {
-    this.setState({ editMode: true });
+    this.props.setListMode(caravanaId, CARAVANA_LIST_MODE.EDIT_MODE);
+  }
+
+  viewCaravanas() {
+    this.props.setListMode(null, CARAVANA_LIST_MODE.VIEW_MODE);
   }
 
   removeCaravana(caravanaId) {
@@ -48,8 +51,8 @@ class CaravanaList extends Component {
   }
 
   render() {
-    if (this.state.editMode) {
-      return <EditCaravana />;
+    if (this.props.viewMode === CARAVANA_LIST_MODE.EDIT_MODE) {
+      return <EditCaravana id={this.props.editCaravanaId} />;
     }
 
     return (
@@ -104,6 +107,8 @@ function mapStateToProps(state) {
 
   return {
     caravanas: caravanasEntity.caravanas,
+    editCaravanaId: caravanasEntity.editCaravanaId,
+    viewMode: caravanasEntity.viewMode,
   };
 }
 
@@ -112,5 +117,6 @@ export default connect(
   {
     fetchCaravanas,
     deleteCaravana,
+    setListMode,
   }
 )(CaravanaList);
