@@ -29,7 +29,6 @@ class EditCompany extends Component {
       className={styles['edit-company-action']}
       label="Cancelar"
       onClick={() => this.props.setListMode(COMPANY_LIST_MODE.VIEW_MODE)}
-      secondary
     />,
     <RaisedButton
       className={styles['edit-company-action']}

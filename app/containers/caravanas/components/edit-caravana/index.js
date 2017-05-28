@@ -29,7 +29,6 @@ class EditCaravana extends Component {
       className={styles['edit-caravana-action']}
       label="Cancelar"
       onClick={() => this.props.setListMode(CARAVANA_LIST_MODE.VIEW_MODE)}
-      secondary
     />,
     <RaisedButton
       className={styles['edit-caravana-action']}
