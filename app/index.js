@@ -5,7 +5,7 @@ import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { getInitialStorage } from './storage/base-storage';
+import { getInitialStorage } from './storage/init-storage';
 import Root from './containers/root';
 import { configureStore, history } from './store/configureStore';
 import 'app/styles/app.global.scss';

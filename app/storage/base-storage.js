@@ -1,21 +1,11 @@
 import isEmpty from 'lodash/isEmpty';
 import has from 'lodash/has';
 import uuid from 'uuid';
-import { SETTINGS_STORAGE_KEY, STORAGE_TYPE, COMPANY_STORAGE_KEY } from './enum';
-import { initialState } from 'app/reducers/company-reducer';
+import { STORAGE_TYPE } from './enum';
 
 const storage = require('electron-json-storage');
 
 window.resetSettings = updateStorage;
-
-const initialSettings = {
-  data: {
-    activeCompanyId: null,
-  },
-  app: {
-    sidebarOpen: true,
-  }
-};
 
 function parseStorageResponse(response, emptyResponse = null) {
   return isEmpty(response) ? emptyResponse : response;
@@ -127,7 +117,7 @@ export function removeById(key, id, storageType) {
  * @param data
  * @returns {Promise}
  */
-function updateStorage(key, data) {
+export function updateStorage(key, data) {
   return new Promise((resolve, reject) => {
     storage.set(key, data, (error) => {
       if (error) {
@@ -136,48 +126,5 @@ function updateStorage(key, data) {
 
       resolve(parseStorageResponse(data));
     });
-  });
-}
-
-function getCompaniesInitialState(companiesData) {
-  const companiesInitialValue = !isEmpty(companiesData) ? companiesData : [];
-
-  return Object.assign({}, initialState, { companies: companiesInitialValue });
-}
-
-export function getInitialStorage() {
-  return new Promise((resolve, reject) => {
-    get(SETTINGS_STORAGE_KEY)
-      .then((settings) => {
-        if (settings) {
-          if (settings.data.activeCompanyId) {
-            get(COMPANY_STORAGE_KEY)
-              .then((companies) => {
-                resolve({
-                  companyReducer: getCompaniesInitialState(companies),
-                  settingsReducer: settings,
-                });
-              })
-              .catch(() => {
-                reject('Error al inicializar la aplicación.');
-              })
-            ;
-          } else {
-            resolve({ settingsReducer: settings });
-          }
-
-          return;
-        }
-
-        updateStorage(SETTINGS_STORAGE_KEY, initialSettings)
-          .then((initialData) => resolve({ settingsReducer: initialData }))
-
-          .catch(() => {
-            reject('Error al inicializar la aplicación.');
-          })
-        ;
-      })
-      .catch((err) => console.log(err))
-    ;
   });
 }
