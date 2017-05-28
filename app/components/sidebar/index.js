@@ -24,11 +24,14 @@ class Sidebar extends Component {
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.props.toggleSidebar}
         />
+        <MenuItem onClick={() => this.redirect('/companies')}>
+          Companies
+        </MenuItem>
         <MenuItem onClick={() => this.redirect('/')}>
           Caravanas
         </MenuItem>
-        <MenuItem onClick={() => this.redirect('/companies')}>
-          Companies
+        <MenuItem onClick={() => this.redirect('/create-movement')}>
+          Crear Movimiento
         </MenuItem>
       </Drawer>
     );

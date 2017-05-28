@@ -5,3 +5,22 @@
   color: $secondary-color;
   text-align: center;
 }
+
+.caravana-list-link
+{
+  color: $secondary-color;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.caravana-list-header-item
+{
+  display: inline-block;
+}
+
+.caravana-list-header-item-action
+{
+  display: inline-block;
+  float: right;
+}

@@ -6,6 +6,9 @@ import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/caravanas-list.scss';
 import CARAVANA_LIST_MODE from './enum';
+import FlatButton from 'material-ui/FlatButton';
+import { Link } from 'react-router-dom'
+
 
 import {
   Table,
@@ -52,7 +55,21 @@ class CaravanaList extends Component {
 
     return (
       <div className={styles['caravana-list']}>
-        <PageSubtitle title="Caravanas" />
+        <div>
+          <div className={styles['caravana-list-header-item']}>
+            <PageSubtitle title="Caravanas" />
+          </div>
+          <div className={styles['caravana-list-header-item-action']}>
+            {this.props.caravanas.length > 0 && (
+              <Link
+                className={styles['caravana-list-link']}
+                to="/create-movement"
+              >
+                Crear Movimiento
+              </Link>
+            )}
+          </div>
+        </div>
 
         {this.props.caravanas.length === 0 && (
           <p className={styles['caravana-list-empty']} >
@@ -62,35 +79,35 @@ class CaravanaList extends Component {
 
         {this.props.caravanas.length > 0 && (
           <Table selectable={false}>
-            <TableHeader
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn>Número</TableHeaderColumn>
-                <TableHeaderColumn>Descripción</TableHeaderColumn>
-                <TableHeaderColumn style={{ textAlign:' center' }}>Acciones</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {this.props.caravanas.map((caravana) => {
-                return (
-                  <TableRow key={caravana.id}>
-                    <TableRowColumn>{caravana.number}</TableRowColumn>
-                    <TableRowColumn>{caravana.description}</TableRowColumn>
-                    <TableRowColumn style={{ textAlign: 'center' }}>
-                      <IconButton iconStyle={{ color: '#00BCD4' }}>
-                        <ActionEdit onClick={() => { this.editCaravana(caravana.id); }} />
-                      </IconButton>
-                      <IconButton iconStyle={{ color: '#FF4081' }}>
-                        <ActionRemove onClick={() => { this.removeCaravana(caravana.id); }} />
-                      </IconButton>
-                    </TableRowColumn>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+              <TableHeader
+                adjustForCheckbox={false}
+                displaySelectAll={false}
+              >
+                <TableRow>
+                  <TableHeaderColumn>Número</TableHeaderColumn>
+                  <TableHeaderColumn>Descripción</TableHeaderColumn>
+                  <TableHeaderColumn style={{ textAlign:' center' }}>Acciones</TableHeaderColumn>
+                </TableRow>
+              </TableHeader>
+              <TableBody displayRowCheckbox={false}>
+                {this.props.caravanas.map((caravana) => {
+                  return (
+                    <TableRow key={caravana.id}>
+                      <TableRowColumn>{caravana.number}</TableRowColumn>
+                      <TableRowColumn>{caravana.description}</TableRowColumn>
+                      <TableRowColumn style={{ textAlign: 'center' }}>
+                        <IconButton iconStyle={{ color: '#00BCD4' }}>
+                          <ActionEdit onClick={() => { this.editCaravana(caravana.id); }} />
+                        </IconButton>
+                        <IconButton iconStyle={{ color: '#FF4081' }}>
+                          <ActionRemove onClick={() => { this.removeCaravana(caravana.id); }} />
+                        </IconButton>
+                      </TableRowColumn>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
         )}
       </div>
     );
