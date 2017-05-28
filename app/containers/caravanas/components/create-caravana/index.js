@@ -120,7 +120,7 @@ class CreateCaravana extends Component {
               errorStyle={errorStyle}
               floatingLabelText="Prefijo"
               value={prefix}
-              onChange={(event) => this.setState({ prefix: event.target.value })}
+              onChange={(event) => this.setState({ prefix: event.target.value.toUpperCase() })}
               style={{ width: '100px' }}
             />
 
@@ -130,7 +130,7 @@ class CreateCaravana extends Component {
               floatingLabelText="Número"
               errorText={showInline && errorMessage}
               value={number}
-              onChange={(event) => this.setState({ number: event.target.value })}
+              onChange={(event) => this.setState({ number: event.target.value.toUpperCase() })}
             />
 
             <RaisedButton

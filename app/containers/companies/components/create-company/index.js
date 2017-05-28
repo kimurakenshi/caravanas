@@ -31,7 +31,7 @@ class CreateCompany extends Component {
 
       this.setState({
         description: '',
-        errorMessage:'',
+        errorMessage: '',
         isDirty: false,
         isValid: true,
         name: '',
@@ -84,7 +84,7 @@ class CreateCompany extends Component {
           floatingLabelText="Nombre"
           errorText={this.state.errorMessage}
           value={name}
-          onChange={(event) => this.setState({ name: event.target.value })}
+          onChange={(event) => this.setState({ name: event.target.value.toUpperCase() })}
         />
 
         <TextField
