@@ -42,3 +42,7 @@ export function hasCompany(state, name, excludeId = null) {
 export function getCompanies(state) {
   return fromCompany.getCompanies(state.companyReducer);
 }
+
+export function getCompanyById(state, id) {
+  return fromCompany.getCompanyById(state.companyReducer, id);
+}

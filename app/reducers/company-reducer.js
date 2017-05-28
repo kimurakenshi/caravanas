@@ -1,21 +1,25 @@
 import * as actionTypes from '../actions/action-types';
+import COMPANY_LIST_MODE from 'app/containers/companies/components/company-list/enum';
 
 const {
-  COMPANY_SAVE_RECEIVED,
-  COMPANY_SAVE_REJECT,
-  COMPANY_SAVE_REQUEST,
   COMPANY_DELETE_RECEIVED,
   COMPANY_DELETE_REJECT,
   COMPANY_DELETE_REQUEST,
   COMPANY_FETCH_RECEIVED,
   COMPANY_FETCH_REJECT,
   COMPANY_FETCH_REQUEST,
+  COMPANY_LIST_SET_MODE,
+  COMPANY_SAVE_RECEIVED,
+  COMPANY_SAVE_REJECT,
+  COMPANY_SAVE_REQUEST,
 } = actionTypes;
 
 const initialState = {
   companies: [],
+  editCompanyId: null,
   error: null,
   isFetching: false,
+  viewMode: COMPANY_LIST_MODE.VIEW_MODE,
 };
 
 export default function companyReducer(state = initialState, action) {
@@ -29,6 +33,19 @@ export default function companyReducer(state = initialState, action) {
       };
     }
 
+    case COMPANY_LIST_SET_MODE: {
+      const {
+        viewMode,
+        editCompanyId = null,
+      } = action.payload;
+
+      return {
+        ...state,
+        viewMode,
+        editCompanyId,
+      };
+    }
+
     case COMPANY_FETCH_RECEIVED: {
       return {
         companies: action.companies,
@@ -38,8 +55,14 @@ export default function companyReducer(state = initialState, action) {
     }
 
     case COMPANY_SAVE_RECEIVED: {
+      const updatedCompanies = state.companies
+        .filter((company) => company.id !== action.company.id)
+        .concat(action.company)
+      ;
+
       return {
-        companies: state.companies.concat(action.company),
+        ...state,
+        companies: updatedCompanies,
         isFetching: false,
         error: null,
       };
@@ -71,6 +94,10 @@ export default function companyReducer(state = initialState, action) {
 
 export function getCompanies(state) {
   return state;
+}
+
+export function getCompanyById(state, id) {
+  return state.companies.find((company) => company.id === id);
 }
 
 export function hasCompany(state, name, excludeId) {

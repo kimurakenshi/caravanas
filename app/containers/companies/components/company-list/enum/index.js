@@ -1,0 +1,6 @@
+const COMPANY_LIST_MODE = {
+  EDIT_MODE: 'EDIT_MODE',
+  VIEW_MODE: 'VIEW_MODE',
+};
+
+export default COMPANY_LIST_MODE;

@@ -29,12 +29,7 @@ export default function saveCompany(company) {
 
     const settings = getSettings(getState());
 
-    const newCompany = {
-      name: company.name,
-      description: company.description,
-    };
-
-    return save(newCompany)
+    return save(company)
       .then((json) => {
         dispatch(receiveCreate(json));
 

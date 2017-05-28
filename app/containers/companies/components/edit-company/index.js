@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
-import { saveCaravana, setListMode } from 'app/actions/caravana-actions';
-import { getCaravanaById, hasCaravana } from 'app/reducers';
+import { saveCompany, setListMode } from 'app/actions/company-actions';
+import { getCompanyById, hasCompany } from 'app/reducers';
 import React, { Component } from 'react';
-import CARAVANA_LIST_MODE from '../caravanas-list/enum';
+import COMPANY_LIST_MODE from '../company-list/enum';
 import Modal from 'app/components/modal';
 import RaisedButton from 'material-ui/RaisedButton';
 import PageSubtitle from 'app/components/page-subtitle';
 import TextField from 'material-ui/TextField';
 import isEmpty from 'lodash/isEmpty';
-import styles from './style/edit-caravana.scss';
+import styles from './style/edit-company.scss';
 
-class EditCaravana extends Component {
+class EditCompany extends Component {
   constructor(props) {
     super(props);
 
@@ -26,13 +26,13 @@ class EditCaravana extends Component {
 
   actions = [
     <RaisedButton
-      className={styles['edit-caravana-action']}
+      className={styles['edit-company-action']}
       label="Cancelar"
-      onClick={() => this.props.setListMode(CARAVANA_LIST_MODE.VIEW_MODE)}
+      onClick={() => this.props.setListMode(COMPANY_LIST_MODE.VIEW_MODE)}
       secondary
     />,
     <RaisedButton
-      className={styles['edit-caravana-action']}
+      className={styles['edit-company-action']}
       label="Guardar"
       onClick={() => this.onSaveAction()}
       primary
@@ -41,31 +41,31 @@ class EditCaravana extends Component {
 
   onSaveAction() {
     if (this.validateForm()) {
-      this.props.saveCaravana({
-        ...this.props.caravana,
-        number: this.numberInput.getValue().trim(),
+      this.props.saveCompany({
+        ...this.props.company,
+        name: this.nameInput.getValue().trim(),
         description: this.descriptionInput.getValue().trim(),
       });
 
-      this.props.setListMode(CARAVANA_LIST_MODE.VIEW_MODE);
+      this.props.setListMode(COMPANY_LIST_MODE.VIEW_MODE);
     }
   }
 
   validateForm() {
-    const caravanaNumber = this.numberInput.getValue().trim();
+    const companyName = this.nameInput.getValue().trim();
 
-    if (isEmpty(caravanaNumber)) {
+    if (isEmpty(companyName)) {
       this.setState({
-        errorMessage: 'El número de la caravana es requerido',
+        errorMessage: 'Nombre es requerido',
         isValid: false,
         isDirty: true,
       });
 
       return false;
     }
-    if (this.props.isExistentCaravana(caravanaNumber, this.props.caravana.id)) {
+    if (this.props.isExistentCompany(companyName, this.props.company.id)) {
       this.setState({
-        errorMessage: 'El número de caravana ya existe.',
+        errorMessage: 'Ya existe una empresa con ese nombre.',
         isValid: false,
         isDirty: true,
       });
@@ -88,20 +88,20 @@ class EditCaravana extends Component {
 
     return (
       <Modal
-        title="Editar Caravana"
+        title="Editar Empresa"
         isOpen
         actions={this.actions}
       >
-        <div className={styles['edit-caravana']}>
-          <PageSubtitle title="Caravana" />
+        <div className={styles['edit-company']}>
+          <PageSubtitle title="Empresa" />
 
           <div>
             <TextField
               errorStyle={errorStyle}
-              floatingLabelText="Número"
+              floatingLabelText="Nombre"
               errorText={errorMessage}
-              defaultValue={this.props.caravana.number}
-              ref={(input) => { this.numberInput = input; }}
+              defaultValue={this.props.company.name}
+              ref={(input) => { this.nameInput = input; }}
             />
           </div>
 
@@ -109,7 +109,7 @@ class EditCaravana extends Component {
             <TextField
               multiLine
               floatingLabelText="Descripción"
-              defaultValue={this.props.caravana.description}
+              defaultValue={this.props.company.description}
               ref={(input) => { this.descriptionInput = input; }}
             />
           </div>
@@ -121,15 +121,15 @@ class EditCaravana extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    caravana: getCaravanaById(state, ownProps.id),
-    isExistentCaravana: (number, excludeId) => hasCaravana(state, number, excludeId),
+    company: getCompanyById(state, ownProps.id),
+    isExistentCompany: (number, excludeId) => hasCompany(state, name, excludeId),
   };
 }
 
 export default connect(
   mapStateToProps,
   {
-    saveCaravana,
+    saveCompany,
     setListMode,
   }
-)(EditCaravana);
+)(EditCompany);

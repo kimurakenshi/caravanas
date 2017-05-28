@@ -25,7 +25,6 @@ class CaravanaList extends Component {
 
     this.addCaravanaToMovement = this.addCaravanaToMovement.bind(this);
     this.editCaravana = this.editCaravana.bind(this);
-    this.viewCaravanas = this.viewCaravanas.bind(this);
     this.removeCaravana = this.removeCaravana.bind(this);
   }
   componentDidMount() {
@@ -38,10 +37,6 @@ class CaravanaList extends Component {
 
   editCaravana(caravanaId) {
     this.props.setListMode(CARAVANA_LIST_MODE.EDIT_MODE, caravanaId);
-  }
-
-  viewCaravanas() {
-    this.props.setListMode(CARAVANA_LIST_MODE.VIEW_MODE);
   }
 
   removeCaravana(caravanaId) {

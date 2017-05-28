@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
-import { removeCompany, fetchCompanies } from 'app/actions/company-actions';
+import { removeCompany, fetchCompanies, setListMode } from 'app/actions/company-actions';
 import { getCompanies, getSettings } from 'app/reducers';
 import { saveSettings } from 'app/actions/settings-actions';
 import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
+import EditCompany from '../edit-company';
 import styles from './style/company-list.scss';
+import COMPANY_LIST_MODE from './enum';
 import {
   Table,
   TableBody,
@@ -16,16 +18,22 @@ import {
 import Toggle from 'material-ui/Toggle';
 import IconButton from 'material-ui/IconButton';
 import ActionRemove from 'material-ui/svg-icons/content/delete-sweep';
+import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
 
 class CompanyList extends Component {
   constructor(props) {
     super(props);
 
     this.activateCompany = this.activateCompany.bind(this);
+    this.editCompany = this.editCompany.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchCompanies();
+  }
+
+  editCompany(companyId) {
+    this.props.setListMode(COMPANY_LIST_MODE.EDIT_MODE, companyId);
   }
 
   activateCompany(companyId) {
@@ -39,6 +47,10 @@ class CompanyList extends Component {
   }
 
   render() {
+    if (this.props.viewMode === COMPANY_LIST_MODE.EDIT_MODE) {
+      return <EditCompany id={this.props.editCompanyId} />;
+    }
+
     return (
       <div className={styles['company-list']}>
         <PageSubtitle title="Empresas" />
@@ -85,10 +97,14 @@ class CompanyList extends Component {
                     })()}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <IconButton iconStyle={{ color: '#FF4081' }}>
-                      {/* @todo: validate movements and caravanas before deleting*/}
-                      <ActionRemove onClick={() => { this.props.removeCompany(company.id); }} />
-                    </IconButton>
+                    <IconButton iconStyle={{ color: '#00BCD4' }}>
+                        <ActionEdit onClick={() => { this.editCompany(company.id); }} />
+                      </IconButton>
+                      <IconButton iconStyle={{ color: '#FF4081' }}>
+                        {/* @todo: validate movements and caravanas before deleting*/}
+
+                        <ActionRemove onClick={() => { this.props.removeCompany(company.id); }} />
+                      </IconButton>
                   </TableRowColumn>
                 </TableRow>
                 ))}
@@ -105,8 +121,10 @@ function mapStateToProps(state) {
   const settings = getSettings(state);
 
   return {
-    companies: companyEntity.companies,
     activeCompanyId: settings.data.activeCompanyId,
+    companies: companyEntity.companies,
+    editCompanyId: companyEntity.editCompanyId,
+    viewMode: companyEntity.viewMode,
   };
 }
 
@@ -116,5 +134,6 @@ export default connect(
     fetchCompanies,
     removeCompany,
     saveSettings,
+    setListMode,
   }
 )(CompanyList);

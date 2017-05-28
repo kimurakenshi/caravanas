@@ -1,0 +1,19 @@
+@import '~styles/colors';
+
+.edit-company
+{
+  border: 1px solid $border-color;
+  padding: 10px;
+  margin: 0 auto;
+  width: 400px;
+}
+
+.edit-company-input
+{
+  margin-right: 10px;
+}
+
+.edit-company-action
+{
+  margin-right: 10px;
+}
