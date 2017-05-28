@@ -72,3 +72,7 @@ export default function caravanaReducer(state = initialState, action) {
 export function getCaravanas(state) {
   return state;
 }
+
+export function hasCaravana(state, caravanaNumber) {
+  return state.caravanas.some((caravana) => caravana.number === caravanaNumber);
+}

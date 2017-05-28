@@ -62,7 +62,7 @@ class CaravanaList extends Component {
               <TableRow>
                 <TableHeaderColumn>Número</TableHeaderColumn>
                 <TableHeaderColumn>Descripción</TableHeaderColumn>
-                <TableHeaderColumn style={{ 'text-align':'center' }}>Acciones</TableHeaderColumn>
+                <TableHeaderColumn style={{ textAlign:' center' }}>Acciones</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
@@ -71,7 +71,7 @@ class CaravanaList extends Component {
                   <TableRow key={caravana.id}>
                     <TableRowColumn>{caravana.number}</TableRowColumn>
                     <TableRowColumn>{caravana.description}</TableRowColumn>
-                    <TableRowColumn style={{ 'text-align':'center' }}>
+                    <TableRowColumn style={{ textAlign: 'center' }}>
                       <IconButton iconStyle={{ color: '#00BCD4' }}>
                         <ActionEdit onClick={() => { this.editCaravana(caravana.id); }} />
                       </IconButton>

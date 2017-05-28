@@ -27,6 +27,10 @@ export function getCaravanas(state) {
   return fromCaravana.getCaravanas(state.caravanaReducer);
 }
 
+export function hasCaravana(state, caravanaNumber) {
+  return fromCaravana.hasCaravana(state.caravanaReducer, caravanaNumber);
+}
+
 export function getCompanies(state) {
   return fromCompany.getCompanies(state.companyReducer);
 }

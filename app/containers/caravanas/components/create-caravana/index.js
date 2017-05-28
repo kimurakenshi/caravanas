@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import { createCaravana } from 'app/actions/caravana-actions';
-import { getSettings } from 'app/reducers';
+import { getSettings, hasCaravana } from 'app/reducers';
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/create-caravana.scss';
+import Snackbar from 'material-ui/Snackbar';
 import isEmpty from 'lodash/isEmpty';
 
 class CreateCaravana extends Component {
@@ -13,50 +14,99 @@ class CreateCaravana extends Component {
     super(props);
 
     this.onCreate = this.onCreate.bind(this);
+    this.onSnackbarClose = this.onSnackbarClose.bind(this);
+
     this.state = {
+      description: '',
       errorMessage: '',
-      isValid: true,
       isDirty: false,
+      isValid: true,
+      number: '',
+      prefix: '',
+      showInline: true,
     };
+  }
+
+  getCaravanaNumber() {
+    let caravanaNumber = this.state.number.trim();
+
+    if (!isEmpty(this.state.prefix.trim())) {
+      caravanaNumber = `${this.state.prefix.trim()}${caravanaNumber}`;
+    }
+
+    return caravanaNumber;
   }
 
   onCreate() {
     if (this.validateForm()) {
-      let caravanaNumber = this.nroInput.getValue().trim();
-
-      if (!isEmpty(this.prefijoInput.getValue().trim())) {
-        caravanaNumber = `${this.prefijoInput.getValue().trim()}${this.nroInput.getValue().trim()}`;
-      }
-
       this.props.createCaravana({
-        description: this.descInput.getValue(),
+        description: this.state.description,
         idCompany: this.props.idCompany,
-        number: caravanaNumber,
+        number: this.getCaravanaNumber(),
       });
 
       // Clear the number after saving.
-      this.nroInput.getInputNode().value = '';
+      this.setState({
+        number: '',
+        description: '',
+      });
     }
   }
 
-  validateForm() {
-    const isValid = !isEmpty(this.nroInput.getValue());
-
-    // @todo: check if the caravana exist before continuing here.
-
+  onSnackbarClose() {
     this.setState({
-      errorMessage: isValid ? '' : 'El número de la caravana es requerido',
-      isValid,
-      isDirty: true,
+      errorMessage: '',
+      isDirty: false,
+      isValid: true,
+      showInline: true,
     });
+  }
 
-    return isValid;
+  validateForm() {
+    const caravanaNumber = this.getCaravanaNumber();
+
+    if (isEmpty(this.state.number.trim())) {
+      this.setState({
+        errorMessage: 'El número de la caravana es requerido',
+        showInline: true,
+        isValid: false,
+        isDirty: true,
+      });
+
+      return false;
+    }
+
+    if (this.props.isExistentCaravana(caravanaNumber)) {
+      this.setState({
+        errorMessage: 'El número de caravana que intenta agregar ya existe.',
+        showInline: false,
+        isValid: false,
+        isDirty: true,
+      });
+
+      return false;
+    }
+
+    return true;
   }
 
   render() {
     const errorStyle = {
       position: 'absolute',
       bottom: '-7px',
+    };
+
+    const {
+      description,
+      errorMessage,
+      number,
+      prefix,
+      showInline,
+    } = this.state;
+
+    const snackbackStyles = {
+      backgroundColor: '#FF4081',
+      textAlign: 'center',
     };
 
     return (
@@ -69,9 +119,8 @@ class CreateCaravana extends Component {
               className={styles['create-caravana-input']}
               errorStyle={errorStyle}
               floatingLabelText="Prefijo"
-              ref={(input) => {
-                this.prefijoInput = input;
-              }}
+              value={prefix}
+              onChange={(event) => this.setState({ prefix: event.target.value })}
               style={{ width: '100px' }}
             />
 
@@ -79,10 +128,9 @@ class CreateCaravana extends Component {
               className={styles['create-caravana-input']}
               errorStyle={errorStyle}
               floatingLabelText="Número"
-              errorText={this.state.errorMessage}
-              ref={(input) => {
-                this.nroInput = input;
-              }}
+              errorText={showInline && errorMessage}
+              value={number}
+              onChange={(event) => this.setState({ number: event.target.value })}
             />
 
             <RaisedButton
@@ -98,12 +146,19 @@ class CreateCaravana extends Component {
               multiLine
               className={styles['create-caravana-input']}
               floatingLabelText="Descripción"
-              ref={(input) => {
-                this.descInput = input;
-              }}
+              value={description}
+              onChange={(event) => this.setState({ description: event.target.value })}
             />
           </div>
         </div>
+
+        <Snackbar
+          open={!showInline && !isEmpty(errorMessage)}
+          bodyStyle={snackbackStyles}
+          message={errorMessage}
+          onRequestClose={this.onSnackbarClose}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
@@ -114,6 +169,7 @@ function mapStateToProps(state) {
 
   return {
     idCompany: settings.data.activeCompanyId,
+    isExistentCaravana: (caravanaId) => hasCaravana(state, caravanaId),
   };
 }
 
