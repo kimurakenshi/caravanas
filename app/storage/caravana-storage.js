@@ -21,8 +21,9 @@ export function getCaravana(caravanaId) {
   ;
 }
 
-export function getAll() {
+export function getAllForCompany(companyId) {
   return baseStorage
     .get(CARAVANAS_STORAGE_KEY, [])
+    .then((caravanas) => caravanas.filter((caravana) => caravana.idCompany === companyId))
   ;
 }
