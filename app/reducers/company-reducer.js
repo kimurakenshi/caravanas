@@ -72,3 +72,15 @@ export default function companyReducer(state = initialState, action) {
 export function getCompanies(state) {
   return state;
 }
+
+export function hasCompany(state, name, excludeId) {
+  return state.companies
+    .some((company) => {
+      if (excludeId) {
+        return company.id !== excludeId && company.name.toLowerCase() === name.toLowerCase();
+      }
+
+      return company.name.toLowerCase() === name.toLowerCase();
+    })
+  ;
+}

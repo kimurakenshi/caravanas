@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { saveCompany } from 'app/actions/company-actions';
+import { hasCompany } from 'app/reducers';
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -13,31 +14,53 @@ class CreateCompany extends Component {
 
     this.onCreate = this.onCreate.bind(this);
     this.state = {
+      description: '',
       errorMessage: '',
-      isValid: true,
       isDirty: false,
+      isValid: true,
+      name: '',
     };
   }
 
   onCreate() {
     if (this.validateForm()) {
       this.props.saveCompany({
-        name: this.nameInput.getValue(),
-        description: this.descInput.getValue(),
+        name: this.state.name.trim(),
+        description: this.state.description.trim(),
+      });
+
+      this.setState({
+        description: '',
+        errorMessage:'',
+        isDirty: false,
+        isValid: true,
+        name: '',
       });
     }
   }
 
   validateForm() {
-    const isValid = !isEmpty(this.nameInput.getValue());
+    if (isEmpty(this.state.name.trim())) {
+      this.setState({
+        errorMessage: 'Nombre es requerido',
+        isValid: false,
+        isDirty: true,
+      });
 
-    this.setState({
-      errorMessage: isValid ? '' : 'Nombre es requerido',
-      isValid,
-      isDirty: true,
-    });
+      return false;
+    }
 
-    return isValid;
+    if (this.props.isExistentCompany(this.state.name.trim())) {
+      this.setState({
+        errorMessage: 'Ya existe una empresa con ese nombre.',
+        isValid: false,
+        isDirty: true,
+      });
+
+      return false;
+    }
+
+    return true;
   }
 
   render() {
@@ -45,6 +68,11 @@ class CreateCompany extends Component {
       position: 'absolute',
       bottom: '-7px',
     };
+
+    const {
+      name,
+      description,
+    } = this.state;
 
     return (
       <div className={styles['create-company']}>
@@ -55,13 +83,15 @@ class CreateCompany extends Component {
           errorStyle={errorStyle}
           floatingLabelText="Nombre"
           errorText={this.state.errorMessage}
-          ref={(input) => { this.nameInput = input; }}
+          value={name}
+          onChange={(event) => this.setState({ name: event.target.value })}
         />
 
         <TextField
           className={styles['create-company-input']}
           floatingLabelText="Descripción"
-          ref={(input) => { this.descInput = input; }}
+          value={description}
+          onChange={(event) => this.setState({ description: event.target.value })}
         />
 
         <RaisedButton
@@ -75,8 +105,14 @@ class CreateCompany extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    isExistentCompany: (name) => hasCompany(state, name),
+  };
+}
+
 export default connect(
-  undefined,
+  mapStateToProps,
   {
     saveCompany,
   }

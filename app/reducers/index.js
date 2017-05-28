@@ -35,6 +35,10 @@ export function hasCaravana(state, caravanaNumber, excludeId = null) {
   return fromCaravana.hasCaravana(state.caravanaReducer, caravanaNumber, excludeId);
 }
 
+export function hasCompany(state, name, excludeId = null) {
+  return fromCompany.hasCompany(state.companyReducer, name, excludeId);
+}
+
 export function getCompanies(state) {
   return fromCompany.getCompanies(state.companyReducer);
 }

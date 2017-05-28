@@ -105,10 +105,12 @@ export function hasCaravana(state, caravanaNumber, excludeId) {
   return state.caravanas
     .some((caravana) => {
       if (excludeId) {
-        return caravana.id !== excludeId && caravana.number === caravanaNumber;
+        return (
+          caravana.id !== excludeId &&
+          caravana.number.toLowerCase() === caravanaNumber.toLowerCase());
       }
 
-      return caravana.number === caravanaNumber;
+      return caravana.number.toLowerCase() === caravanaNumber.toLowerCase();
     })
   ;
 }
