@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import EditCaravana from '../edit-caravana';
 import { fetchCaravanas, deleteCaravana, setListMode } from 'app/actions/caravana-actions';
 import { getCaravanas } from 'app/reducers';
+import { addCaravanaToDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
 import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/caravanas-list.scss';
@@ -112,7 +113,7 @@ class CaravanaList extends Component {
               {this.props.caravanas.map((caravana) => {
                 return (
                   <TableRow key={caravana.id}>
-                    <TableRowColumn style={{width: '200px'}}>{caravana.number}</TableRowColumn>
+                    <TableRowColumn style={{ width: '200px' }}>{caravana.number}</TableRowColumn>
                     {showDescription && (
                       <TableRowColumn>{caravana.description}</TableRowColumn>
                     )}
@@ -132,6 +133,7 @@ class CaravanaList extends Component {
                           label="Agregar"
                           labelStyle={{ fontSize: '12px' }}
                           labelPosition="before"
+                          onClick={() => this.props.addCaravanaToDraftMovement(caravana)}
                           primary
                           icon={<ActionForward />}
                           style={styles.button}
@@ -169,6 +171,7 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
+    addCaravanaToDraftMovement,
     fetchCaravanas,
     deleteCaravana,
     setListMode,

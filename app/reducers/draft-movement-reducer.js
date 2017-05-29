@@ -25,7 +25,9 @@ export default function draftMovementReducer(state = initialState, action) {
         return state;
       }
 
-      const updatedCaravanas = state.caravanas.concat(action.payload.caravana);
+      const caravanaToAdd = Object.assign({}, action.payload.caravana);
+
+      const updatedCaravanas = state.caravanas.concat(caravanaToAdd);
 
       return {
         ...state,
@@ -40,7 +42,7 @@ export default function draftMovementReducer(state = initialState, action) {
 
       return {
         ...state,
-        caravanas: state.caravanas.filter((c) => c.id === action.paylaod.id),
+        caravanas: state.caravanas.filter((c) => c.id !== action.payload.id),
       };
     }
 

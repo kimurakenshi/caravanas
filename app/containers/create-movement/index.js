@@ -2,6 +2,7 @@ import React from 'react';
 import PageTitle from '../../components/page-title';
 import styles from './style/create-movement.scss';
 import { CaravanaList } from 'app/containers/caravanas/components';
+import { MovementCaravanaList } from './components';
 
 export default function CreateMovement() {
   return (
@@ -18,7 +19,7 @@ export default function CreateMovement() {
       </div>
 
       <div className={styles['create-movement-right-panel']}>
-
+        <MovementCaravanaList />
       </div>
     </div>
   );
