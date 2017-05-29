@@ -1,0 +1,18 @@
+@import '~styles/colors';
+
+.movement-caravana-list-remove
+{
+  color: #00BCD4;
+}
+
+.movement-caravana-list-empty
+{
+  color: $secondary-color;
+  text-align: center;
+}
+
+.movement-caravana-list-active
+{
+  color: $secondary-color;
+  font-weight: 500;
+}

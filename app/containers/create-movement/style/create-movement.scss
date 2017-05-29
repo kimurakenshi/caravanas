@@ -1,0 +1,23 @@
+@import '~styles/colors';
+
+.create-movement
+{
+	padding: 30px;
+}
+
+.create-movement-left-panel
+{
+  display: inline-block;
+  border: 1px solid $border-color;
+  padding: 10px;
+  width: 45%;
+}
+
+.create-movement-right-panel
+{
+  display: inline-block;
+  border: 1px solid $border-color;
+  padding: 10px;
+  width: 45%;
+  float: right;
+}

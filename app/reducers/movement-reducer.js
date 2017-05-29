@@ -71,6 +71,7 @@ export default function movementReducer(state = initialState, action) {
 
     case MOVEMENT_DELETE_RECEIVED: {
       return {
+        ...state,
         movements: state.movements.filter((movement) => movement.id !== action.movementId),
         isFetching: false,
         error: null,

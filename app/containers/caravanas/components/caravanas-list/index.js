@@ -8,7 +8,7 @@ import styles from './style/caravanas-list.scss';
 import CARAVANA_LIST_MODE from './enum';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom'
-
+import ActionForward from 'material-ui/svg-icons/content/forward';
 
 import {
   Table,
@@ -49,6 +49,13 @@ class CaravanaList extends Component {
   }
 
   render() {
+    const {
+      showActions,
+      showCreateMovement,
+      showDescription,
+      showAddToMovement,
+    } = this.props;
+
     if (this.props.viewMode === CARAVANA_LIST_MODE.EDIT_MODE) {
       return <EditCaravana id={this.props.editCaravanaId} />;
     }
@@ -60,7 +67,7 @@ class CaravanaList extends Component {
             <PageSubtitle title="Caravanas" />
           </div>
           <div className={styles['caravana-list-header-item-action']}>
-            {this.props.caravanas.length > 0 && (
+            {this.props.caravanas.length > 0 && showCreateMovement &&  (
               <Link
                 className={styles['caravana-list-link']}
                 to="/create-movement"
@@ -79,22 +86,37 @@ class CaravanaList extends Component {
 
         {this.props.caravanas.length > 0 && (
           <Table selectable={false}>
-              <TableHeader
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-              >
-                <TableRow>
-                  <TableHeaderColumn>Número</TableHeaderColumn>
+            <TableHeader
+              adjustForCheckbox={false}
+              displaySelectAll={false}
+            >
+              <TableRow>
+                <TableHeaderColumn style={{width: '200px'}}>Número</TableHeaderColumn>
+                {showDescription && (
                   <TableHeaderColumn>Descripción</TableHeaderColumn>
-                  <TableHeaderColumn style={{ textAlign:' center' }}>Acciones</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {this.props.caravanas.map((caravana) => {
-                  return (
-                    <TableRow key={caravana.id}>
-                      <TableRowColumn>{caravana.number}</TableRowColumn>
+                )}
+                {showActions && (
+                  <TableHeaderColumn style={{ textAlign: 'center' }}>Acciones</TableHeaderColumn>
+                )}
+                {showAddToMovement && (
+                  <TableHeaderColumn
+                    style={{ textAlign: 'center', width: '100px' }}
+                  >
+                    Acciones
+                  </TableHeaderColumn>
+                )}
+              </TableRow>
+            </TableHeader>
+
+            <TableBody displayRowCheckbox={false}>
+              {this.props.caravanas.map((caravana) => {
+                return (
+                  <TableRow key={caravana.id}>
+                    <TableRowColumn style={{width: '200px'}}>{caravana.number}</TableRowColumn>
+                    {showDescription && (
                       <TableRowColumn>{caravana.description}</TableRowColumn>
+                    )}
+                    {showActions && (
                       <TableRowColumn style={{ textAlign: 'center' }}>
                         <IconButton iconStyle={{ color: '#00BCD4' }}>
                           <ActionEdit onClick={() => { this.editCaravana(caravana.id); }} />
@@ -103,16 +125,36 @@ class CaravanaList extends Component {
                           <ActionRemove onClick={() => { this.removeCaravana(caravana.id); }} />
                         </IconButton>
                       </TableRowColumn>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+                    )}
+                    {showAddToMovement && (
+                      <TableRowColumn style={{ textAlign: 'center', width: '100px' }}>
+                        <FlatButton
+                          label="Agregar"
+                          labelStyle={{ fontSize: '12px' }}
+                          labelPosition="before"
+                          primary
+                          icon={<ActionForward />}
+                          style={styles.button}
+                        />
+                      </TableRowColumn>
+                    )}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         )}
       </div>
     );
   }
 }
+
+CaravanaList.defaultProps = {
+  showActions: true,
+  showCreateMovement: true,
+  showDescription: true,
+  showAddToMovement: false,
+};
 
 function mapStateToProps(state) {
   const caravanasEntity = getCaravanas(state);

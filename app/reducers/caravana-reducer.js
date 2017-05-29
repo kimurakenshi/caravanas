@@ -71,6 +71,7 @@ export default function caravanaReducer(state = initialState, action) {
 
     case CARAVANA_DELETE_RECEIVED: {
       return {
+        ...state,
         caravanas: state.caravanas.filter((caravana) => caravana.id !== action.caravanaId),
         isFetching: false,
         error: null,

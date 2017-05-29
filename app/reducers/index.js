@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
 import caravanaReducer, * as fromCaravana from './caravana-reducer';
+import draftMovementReducer, * as fromDraftMovementReducer from './draft-movement-reducer';
 import movementReducer, * as fromMovement from './movement-reducer';
 import companyReducer, * as fromCompany from './company-reducer';
 import sidebarReducer, * as fromSidebar from './sidebar-reducer';
@@ -9,6 +10,7 @@ import settingsReducer, * as fromSettings from './settings-reducer';
 const rootReducer = combineReducers({
   caravanaReducer,
   companyReducer,
+  draftMovementReducer,
   movementReducer,
   settingsReducer,
   sidebarReducer,
@@ -55,4 +57,8 @@ export function getMovementById(state, id) {
 
 export function getMovements(state) {
   return fromMovement.getMovements(state.movementReducer);
+}
+
+export function getDraftMovements(state) {
+  return fromDraftMovementReducer.getDraftMovements(state.draftMovementReducer);
 }
