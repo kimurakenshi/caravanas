@@ -1,9 +1,16 @@
 import { MOVEMENTS_STORAGE_KEY, STORAGE_TYPE } from './enum';
 import * as baseStorage from './base-storage';
+import has from 'lodash/has';
 
 export function save(movement) {
+  const movementToSave = Object.assign({}, movement);
+
+  if (!has(movement, 'creationDate') || !movementToSave.creationDate) {
+    movementToSave['creationDate'] = new Date().toDateString();
+  }
+
   return baseStorage
-    .save(MOVEMENTS_STORAGE_KEY, movement, STORAGE_TYPE.ARRAY)
+    .save(MOVEMENTS_STORAGE_KEY, movementToSave, STORAGE_TYPE.ARRAY)
   ;
 }
 

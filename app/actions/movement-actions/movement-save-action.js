@@ -21,9 +21,11 @@ export function receiveCreate(movement) {
   };
 }
 
-export default function saveMovement(movement) {
+export default function saveMovement(movement, status) {
   return (dispatch) => {
     dispatch(requestCreate());
+
+    movement.status = status;
 
     return save(movement)
       .then((json) => {

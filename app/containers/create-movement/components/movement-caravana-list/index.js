@@ -2,9 +2,7 @@ import { connect } from 'react-redux';
 import { removeCaravanaFromDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
 import React, { Component } from 'react';
 import { getDraftMovements } from 'app/reducers';
-import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/movement-caravana-list.scss';
-
 import {
   Table,
   TableBody,
@@ -20,16 +18,14 @@ class MovementCaravanaList extends Component {
   render() {
     return (
       <div className={styles['movement-caravana-list']}>
-        <PageSubtitle title="Movimiento" />
-
-        {this.props.caravanas.length === 0 && (
+        {this.props.draftMovement.caravanas.length === 0 && (
           <p className={styles['movement-caravana-list-empty']} >
             Comienza agregando caravanas de la lista de la izquierda para crear
             un movimiento.
           </p>
         )}
 
-        {this.props.caravanas.length > 0 && (
+        {this.props.draftMovement.caravanas.length > 0 && (
           <Table selectable={false}>
             <TableHeader
               adjustForCheckbox={false}
@@ -41,7 +37,7 @@ class MovementCaravanaList extends Component {
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
-              {this.props.caravanas.map((caravana) => (
+              {this.props.draftMovement.caravanas.map((caravana) => (
                 <TableRow key={caravana.id}>
                   <TableRowColumn style={{ width: '200px' }}>{caravana.number}</TableRowColumn>
                   <TableRowColumn>
@@ -65,7 +61,7 @@ function mapStateToProps(state) {
   const draftMovement = getDraftMovements(state);
 
   return {
-    caravanas: draftMovement.caravanas,
+    draftMovement,
   };
 }
 

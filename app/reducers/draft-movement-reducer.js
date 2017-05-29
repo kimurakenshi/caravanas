@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/action-types';
+import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
 
 const {
   MOVEMENT_DRAFT_INIT,
@@ -8,8 +9,10 @@ const {
 
 const initialState = {
   id: null,
+  idCompany: null,
   creationDate: null,
   caravanas: [],
+  status: MOVEMENT_STATUS.DRAFT,
 };
 
 export default function draftMovementReducer(state = initialState, action) {
@@ -17,6 +20,7 @@ export default function draftMovementReducer(state = initialState, action) {
     case MOVEMENT_DRAFT_INIT: {
       return {
         ...initialState,
+        idCompany: action.payload.activeCompanyId,
       };
     }
 

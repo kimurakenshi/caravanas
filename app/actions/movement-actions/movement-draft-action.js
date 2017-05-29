@@ -1,9 +1,9 @@
 import { MOVEMENT_DRAFT_INIT, MOVEMENT_DRAFT_ADD, MOVEMENT_DRAFT_DELETE } from '../action-types';
 
-export function initDraftMovement(movement = null) {
+export function initDraftMovement(activeCompanyId) {
   return {
     payload: {
-      movement,
+      activeCompanyId,
     },
     type: MOVEMENT_DRAFT_INIT,
   };

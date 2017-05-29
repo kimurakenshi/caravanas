@@ -7,6 +7,13 @@ const storage = require('electron-json-storage');
 
 window.resetSettings = updateStorage;
 
+window.cleanStorage = () => {
+  updateStorage('SETTINGS', null);
+  updateStorage('COMPANY', null);
+  updateStorage('CARAVANAS', null);
+  updateStorage('MOVEMENT', null);
+};
+
 function parseStorageResponse(response, emptyResponse = null) {
   return isEmpty(response) ? emptyResponse : response;
 }
@@ -60,7 +67,7 @@ function getStorageDataForType(currentStorage, storageType) {
 export function save(key, item, storageType) {
   return new Promise((resolve, reject) => {
     const itemToSave = Object.assign({}, item);
-    const isNew = !has(item, 'id');
+    const isNew = !has(item, 'id') || !item.id;
 
     // Generate id for new items.
     if (isNew) {
