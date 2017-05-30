@@ -52,13 +52,13 @@ export function getCompanyById(state, id) {
 }
 
 export function getMovementById(state, id) {
-  return fromMovement.getMovementById(state.movementReducer(), id);
+  return fromMovement.getMovementById(state.movementReducer, id);
 }
 
 export function getMovements(state) {
   return fromMovement.getMovements(state.movementReducer);
 }
 
-export function getDraftMovements(state) {
-  return fromDraftMovementReducer.getDraftMovements(state.draftMovementReducer);
+export function getDraftMovement(state) {
+  return fromDraftMovementReducer.getDraftMovement(state.draftMovementReducer);
 }

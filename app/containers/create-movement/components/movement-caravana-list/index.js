@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { removeCaravanaFromDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
 import React, { Component } from 'react';
-import { getDraftMovements } from 'app/reducers';
+import { getDraftMovement } from 'app/reducers';
 import styles from './style/movement-caravana-list.scss';
 import {
   Table,
@@ -33,20 +33,24 @@ class MovementCaravanaList extends Component {
             >
               <TableRow>
                 <TableHeaderColumn style={{ width: '200px' }}>Número</TableHeaderColumn>
-                <TableHeaderColumn>Eliminar</TableHeaderColumn>
+                {this.props.showDelete && (
+                  <TableHeaderColumn>Eliminar</TableHeaderColumn>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
               {this.props.draftMovement.caravanas.map((caravana) => (
                 <TableRow key={caravana.id}>
                   <TableRowColumn style={{ width: '200px' }}>{caravana.number}</TableRowColumn>
-                  <TableRowColumn>
-                    <IconButton iconStyle={{ color: '#FF4081' }}>
-                      <ActionRemove
-                        onClick={() => this.props.removeCaravanaFromDraftMovement(caravana.id)}
-                      />
-                    </IconButton>
-                  </TableRowColumn>
+                  {this.props.showDelete && (
+                    <TableRowColumn>
+                      <IconButton iconStyle={{ color: '#FF4081' }}>
+                        <ActionRemove
+                          onClick={() => this.props.removeCaravanaFromDraftMovement(caravana.id)}
+                        />
+                      </IconButton>
+                    </TableRowColumn>
+                  )}
                 </TableRow>
                 ))}
             </TableBody>
@@ -57,8 +61,12 @@ class MovementCaravanaList extends Component {
   }
 }
 
+MovementCaravanaList.defaultProps = {
+  showDelete: true,
+};
+
 function mapStateToProps(state) {
-  const draftMovement = getDraftMovements(state);
+  const draftMovement = getDraftMovement(state);
 
   return {
     draftMovement,

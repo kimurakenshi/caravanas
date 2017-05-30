@@ -3,8 +3,10 @@ import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
 
 const {
   MOVEMENT_DRAFT_INIT,
+  MOVEMENT_DRAFT_SET,
   MOVEMENT_DRAFT_ADD,
   MOVEMENT_DRAFT_DELETE,
+  MOVEMENT_SAVE_RECEIVED,
 } = actionTypes;
 
 const initialState = {
@@ -24,6 +26,12 @@ export default function draftMovementReducer(state = initialState, action) {
       };
     }
 
+    case MOVEMENT_DRAFT_SET: {
+      return {
+        ...action.payload.movement,
+      };
+    }
+
     case MOVEMENT_DRAFT_ADD: {
       if (state.caravanas.some((c) => c.id === action.payload.caravana.id)) {
         return state;
@@ -36,6 +44,12 @@ export default function draftMovementReducer(state = initialState, action) {
       return {
         ...state,
         caravanas: updatedCaravanas,
+      };
+    }
+
+    case MOVEMENT_SAVE_RECEIVED: {
+      return {
+        ...action.movement,
       };
     }
 
@@ -56,6 +70,6 @@ export default function draftMovementReducer(state = initialState, action) {
   }
 }
 
-export function getDraftMovements(state) {
+export function getDraftMovement(state) {
   return state;
 }

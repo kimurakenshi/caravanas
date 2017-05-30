@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PageTitle from '../../components/page-title';
 import styles from './style/create-movement.scss';
-import { getDraftMovements } from 'app/reducers';
+import { getDraftMovement } from 'app/reducers';
 import { CaravanaList } from 'app/containers/caravanas/components';
 import { MovementCaravanaList } from './components';
 import { saveMovement } from 'app/actions/movement-actions';
@@ -10,9 +10,10 @@ import { initDraftMovement } from 'app/actions/movement-actions/movement-draft-a
 import PageSubtitle from 'app/components/page-subtitle';
 import RaisedButton from 'material-ui/RaisedButton';
 import { getSettings } from 'app/reducers';
+import { withRouter } from 'react-router-dom';
 import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
 
-export class CreateMovement extends Component {
+class CreateMovement extends Component {
   constructor(props) {
     super(props);
 
@@ -21,6 +22,12 @@ export class CreateMovement extends Component {
 
   componentDidMount() {
     this.props.initDraftMovement(this.props.activeCompanyId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.draftMovement && nextProps.draftMovement.id) {
+      this.props.history.push(`/edit-movement/${nextProps.draftMovement.id}`);
+    }
   }
 
   onSave() {
@@ -62,7 +69,7 @@ export class CreateMovement extends Component {
 }
 
 function mapStateToProps(state) {
-  const draftMovement = getDraftMovements(state);
+  const draftMovement = getDraftMovement(state);
   const settings = getSettings(state);
 
   return {
@@ -71,10 +78,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {
     saveMovement,
     initDraftMovement,
   }
-)(CreateMovement);
+)(CreateMovement));

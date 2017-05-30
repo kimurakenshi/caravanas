@@ -1,0 +1,38 @@
+@import '~styles/colors';
+
+.edit-movement
+{
+	padding: 30px;
+}
+
+.edit-movement-left-panel
+{
+  display: inline-block;
+  border: 1px solid $border-color;
+  padding: 10px;
+  width: 45%;
+}
+
+.edit-movement-right-panel
+{
+  display: inline-block;
+  border: 1px solid $border-color;
+  padding: 10px;
+  width: 45%;
+}
+
+.edit-movement-action {
+  margin-left: 10px;
+}
+
+.edit-movement-created
+{
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: $tertiary-color;
+}
+
+.edit-movement-title {
+  margin-bottom: 0;
+}
