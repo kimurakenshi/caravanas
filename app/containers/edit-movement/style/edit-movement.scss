@@ -27,8 +27,16 @@
 
 .edit-movement-created
 {
+  margin-bottom: 10px;
   margin-top: 5px;
+  font-size: 14px;
+  color: $tertiary-color;
+}
+
+.edit-movement-status
+{
   margin-bottom: 20px;
+  margin-top: 0;
   font-size: 14px;
   color: $tertiary-color;
 }
@@ -38,6 +46,7 @@
 }
 
 .edit-movement-error {
+  color: $primary-accent-color;
   text-align: center;
   margin-top: 50px;
 }

@@ -53,15 +53,30 @@ class EditMovement extends Component {
     this.setState({ isConfirmMovementAction: true });
   }
 
+  getStateName(status) {
+    switch (status) {
+      case MOVEMENT_STATUS.CONFIRMED: {
+        return 'Confirmado';
+      }
+
+      default: {
+        return 'En Progreso';
+      }
+    }
+  }
+
   render() {
     const rightPanelStyles = {};
+    const {
+      draftMovement
+    } = this.props;
 
-    const pageTitle = this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS ?
+    const pageTitle = draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS ?
       'Editar Movimiento' :
       'Movimiento'
     ;
 
-    if (!this.props.draftMovement) {
+    if (!draftMovement) {
       return (
         <h4 className={styles['edit-movement-error']}>
           No se pudo encontrar el movimiento solicitado.
@@ -85,7 +100,7 @@ class EditMovement extends Component {
       );
     }
 
-    if (this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS) {
+    if (draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS) {
       rightPanelStyles['float'] = 'right';
     } else {
       rightPanelStyles['float'] = 'none';
@@ -99,12 +114,17 @@ class EditMovement extends Component {
         />
 
         <p className={styles['edit-movement-created']} >
-          Creado el {this.props.draftMovement.creationDate}
+          Creado el {draftMovement.creationDate}
         </p>
 
-        {this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
+        <p className={styles['edit-movement-status']} >
+          Estado: {this.getStateName(draftMovement.status)}
+        </p>
+
+        {draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
           <div
-            className={styles['edit-movement-left-panel']}>
+            className={styles['edit-movement-left-panel']}
+          >
             <CaravanaList
               showActions={false}
               showAddToMovement
@@ -120,8 +140,8 @@ class EditMovement extends Component {
         >
           <PageSubtitle title="Movimiento" />
 
-          {this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS &&
-            this.props.draftMovement.caravanas.length > 0 && (
+          {draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS &&
+            draftMovement.caravanas.length > 0 && (
             <RaisedButton
               labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
               style={{width: '50px', height: '30px', marginTop: '15px' }}
@@ -131,19 +151,19 @@ class EditMovement extends Component {
             />
           )}
 
-          {this.props.draftMovement.caravanas.length > 0 &&
-           this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
-            <RaisedButton
-              className={styles['edit-movement-action']}
-              labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
-              style={{width: '100px', height: '30px', marginTop: '15px' }}
-              label="Confirmar"
-              onClick={this.onConfirm}
-              default
-            />
+          {draftMovement.caravanas.length > 0 &&
+            draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
+              <RaisedButton
+                className={styles['edit-movement-action']}
+                labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
+                style={{width: '100px', height: '30px', marginTop: '15px' }}
+                label="Confirmar"
+                onClick={this.onConfirm}
+                default
+              />
           )}
 
-          {this.props.draftMovement.caravanas.length > 0 && (
+          {draftMovement.caravanas.length > 0 && (
             <RaisedButton
               className={styles['edit-movement-action']}
               labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
@@ -155,7 +175,7 @@ class EditMovement extends Component {
           )}
 
           <MovementCaravanaList
-            showDelete={this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS}
+            showDelete={draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS}
           />
         </div>
       </div>
