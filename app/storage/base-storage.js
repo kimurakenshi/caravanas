@@ -5,8 +5,14 @@ import { STORAGE_TYPE } from './enum';
 
 const storage = require('electron-json-storage');
 
+// @todo: remove this when code is ready.
 window.resetSettings = updateStorage;
-
+window.cleanC = () => {
+  updateStorage('CARAVANAS', null);
+};
+window.cleanM = () => {
+  updateStorage('MOVEMENT', null);
+};
 window.cleanStorage = () => {
   updateStorage('SETTINGS', null);
   updateStorage('COMPANY', null);

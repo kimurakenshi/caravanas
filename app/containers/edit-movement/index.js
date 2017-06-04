@@ -5,8 +5,9 @@ import styles from './style/edit-movement.scss';
 import { getDraftMovement } from 'app/reducers';
 import { CaravanaList } from 'app/containers/caravanas/components';
 import { MovementCaravanaList } from '../create-movement/components';
-import { saveMovement } from 'app/actions/movement-actions';
+import { confirmMovement, saveMovement } from 'app/actions/movement-actions';
 import { setDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
+import Modal from 'app/components/modal';
 import PageSubtitle from 'app/components/page-subtitle';
 import RaisedButton from 'material-ui/RaisedButton';
 import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
@@ -17,22 +18,72 @@ class EditMovement extends Component {
 
     this.onSave = this.onSave.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+
+    this.state = {
+      isConfirmMovementAction: false,
+    };
   }
 
   componentDidMount() {
     this.props.setDraftMovement(this.props.match.params.id);
   }
 
+  actions = [
+    <RaisedButton
+      className={styles['edit-movement-actions']}
+      label="No"
+      onClick={() => this.setState({ isConfirmMovementAction: false })}
+    />,
+    <RaisedButton
+      className={styles['edit-movement-actions']}
+      label="Si"
+      onClick={() => {
+        this.props.confirmMovement(this.props.draftMovement, MOVEMENT_STATUS.CONFIRMED);
+        this.setState({ isConfirmMovementAction: false });
+      }}
+      primary
+    />,
+  ];
+
   onSave() {
     this.props.saveMovement(this.props.draftMovement, MOVEMENT_STATUS.IN_PROGRESS);
   }
 
   onConfirm() {
-    this.props.saveMovement(this.props.draftMovement, MOVEMENT_STATUS.CONFIRMED);
+    this.setState({ isConfirmMovementAction: true });
   }
 
   render() {
     const rightPanelStyles = {};
+
+    const pageTitle = this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS ?
+      'Editar Movimiento' :
+      'Movimiento'
+    ;
+
+    if (!this.props.draftMovement) {
+      return (
+        <h4 className={styles['edit-movement-error']}>
+          No se pudo encontrar el movimiento solicitado.
+        </h4>
+      );
+    }
+
+    if (this.state.isConfirmMovementAction) {
+      return (
+        <Modal
+          title="Confirmar Movimiento"
+          isOpen
+          actions={this.actions}
+        >
+          <p>
+            Esta acción actualizará el estado del movimiento a CONFIRMADO y
+            eliminará las caravanas del listado de caravanas que estén asociadas
+            a este movimiento. Está seguro que desea continuar?
+          </p>
+        </Modal>
+      );
+    }
 
     if (this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS) {
       rightPanelStyles['float'] = 'right';
@@ -44,7 +95,7 @@ class EditMovement extends Component {
       <div className={styles['edit-movement']}>
         <PageTitle
           className={styles['edit-movement-title']}
-          title="Editar Movimiento"
+          title={pageTitle}
         />
 
         <p className={styles['edit-movement-created']} >
@@ -69,7 +120,8 @@ class EditMovement extends Component {
         >
           <PageSubtitle title="Movimiento" />
 
-          {this.props.draftMovement.caravanas.length > 0 && (
+          {this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS &&
+            this.props.draftMovement.caravanas.length > 0 && (
             <RaisedButton
               labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
               style={{width: '50px', height: '30px', marginTop: '15px' }}
@@ -79,7 +131,8 @@ class EditMovement extends Component {
             />
           )}
 
-          {this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
+          {this.props.draftMovement.caravanas.length > 0 &&
+           this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
             <RaisedButton
               className={styles['edit-movement-action']}
               labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
@@ -90,14 +143,16 @@ class EditMovement extends Component {
             />
           )}
 
-          <RaisedButton
-            className={styles['edit-movement-action']}
-            labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
-            style={{ width: '80px', height: '30px', marginTop: '15px' }}
-            label="Exportar"
-            onClick={this.onConfirm}
-            secondary
-          />
+          {this.props.draftMovement.caravanas.length > 0 && (
+            <RaisedButton
+              className={styles['edit-movement-action']}
+              labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
+              style={{ width: '80px', height: '30px', marginTop: '15px' }}
+              label="Exportar"
+              onClick={this.onConfirm}
+              secondary
+            />
+          )}
 
           <MovementCaravanaList
             showDelete={this.props.draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS}
@@ -119,6 +174,7 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
+    confirmMovement,
     saveMovement,
     setDraftMovement,
   }

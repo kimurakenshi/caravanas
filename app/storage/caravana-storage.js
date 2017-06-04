@@ -14,6 +14,29 @@ export function removeById(caravanaId) {
   ;
 }
 
+export function removeList(caravanasToRemove) {
+  return new Promise((resolve, reject) => {
+    baseStorage
+      .get(CARAVANAS_STORAGE_KEY)
+      .then((caravanas) => {
+        const caravanasToRemoveId = caravanasToRemove
+          .map((caravana) => caravana.id)
+        ;
+
+        const caravanasToSave = caravanas
+          .filter((caravana) => !caravanasToRemoveId.includes(caravana.id))
+        ;
+
+        baseStorage.updateStorage(CARAVANAS_STORAGE_KEY, caravanasToSave)
+          .then(() => resolve(caravanasToSave))
+          .catch(() => reject('Se produjo un error al eliminar el listado de caravanas.'))
+        ;
+      })
+      .catch(() => reject('Se produjo un error al eliminar el listado de caravanas.'))
+    ;
+  });
+}
+
 export function getCaravana(caravanaId) {
   return baseStorage
     .get(CARAVANAS_STORAGE_KEY)

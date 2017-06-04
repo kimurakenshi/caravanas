@@ -8,6 +8,9 @@ const {
   CARAVANA_DELETE_RECEIVED,
   CARAVANA_DELETE_REJECT,
   CARAVANA_DELETE_REQUEST,
+  CARAVANA_DELETE_LIST_RECEIVED,
+  CARAVANA_DELETE_LIST_REJECT,
+  CARAVANA_DELETE_LIST_REQUEST,
   CARAVANA_FETCH_RECEIVED,
   CARAVANA_FETCH_REJECT,
   CARAVANA_FETCH_REQUEST,
@@ -26,6 +29,7 @@ export default function caravanaReducer(state = initialState, action) {
   switch (action.type) {
     case CARAVANA_SAVE_REQUEST:
     case CARAVANA_DELETE_REQUEST:
+    case CARAVANA_DELETE_LIST_REQUEST:
     case CARAVANA_FETCH_REQUEST: {
       return {
         ...state,
@@ -78,8 +82,18 @@ export default function caravanaReducer(state = initialState, action) {
       };
     }
 
+    case CARAVANA_DELETE_LIST_RECEIVED: {
+      return {
+        ...state,
+        caravanas: action.caravanas,
+        isFetching: false,
+        error: null,
+      };
+    }
+
     case CARAVANA_SAVE_REJECT:
     case CARAVANA_DELETE_REJECT:
+    case CARAVANA_DELETE_LIST_REJECT:
     case CARAVANA_FETCH_REJECT: {
       return {
         ...state,
