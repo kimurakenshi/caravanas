@@ -1,0 +1,54 @@
+@import '~styles/colors';
+
+.movement-left-panel
+{
+  display: inline-block;
+  border: 1px solid $border-color;
+  padding: 10px;
+  width: 45%;
+}
+
+.movement-right-panel
+{
+  display: inline-block;
+  border: 1px solid $border-color;
+  padding: 10px;
+  width: 45%;
+}
+
+.movement-action {
+  margin-left: 10px;
+}
+
+.movement-created
+{
+  margin-bottom: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.movement-status
+{
+  margin-bottom: 20px;
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.movement-details {
+  margin: 30px 0;
+}
+
+.movement-caravanas-title
+{
+  color: $secondary-color;
+}
+
+.movement-caravanas {
+  width: 400px;
+}
+
+.movement-caravanas-list
+{
+  overflow: scroll;
+  max-height: 200px;
+}

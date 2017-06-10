@@ -18,6 +18,7 @@ import ActionRemove from 'material-ui/svg-icons/content/delete-sweep';
 import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
 import RaisedButton from 'material-ui/RaisedButton';
 import Modal from 'app/components/modal';
+import Movement from '../movement';
 
 class MovementList extends Component {
   constructor(props) {
@@ -92,6 +93,7 @@ class MovementList extends Component {
     if (this.state.isDeleteMovementAction) {
       return (
         <Modal
+          autoScrollBodyContent
           title="Eliminar Movimiento"
           isOpen
           actions={this.actions}
@@ -99,6 +101,8 @@ class MovementList extends Component {
           <p>
             Está seguro que desea eliminar este movimiento?
           </p>
+
+          <Movement id={this.state.idMovementToDelete}/>
         </Modal>
       );
     }
