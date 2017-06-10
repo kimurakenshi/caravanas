@@ -140,40 +140,41 @@ class EditMovement extends Component {
         >
           <PageSubtitle title="Movimiento" />
 
-          {draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS &&
-            draftMovement.caravanas.length > 0 && (
-            <RaisedButton
-              labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
-              style={{width: '50px', height: '30px', marginTop: '15px' }}
-              label="Guardar"
-              onClick={this.onSave}
-              primary
-            />
-          )}
+          <div className={styles['edit-movement-action-section']}>
+            {draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS &&
+              draftMovement.caravanas.length > 0 && (
+              <RaisedButton
+                labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
+                style={{width: '50px', height: '30px', marginTop: '15px' }}
+                label="Guardar"
+                onClick={this.onSave}
+                primary
+              />
+            )}
 
-          {draftMovement.caravanas.length > 0 &&
-            draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
+            {draftMovement.caravanas.length > 0 &&
+              draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS && (
+                <RaisedButton
+                  className={styles['edit-movement-action']}
+                  labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
+                  style={{width: '100px', height: '30px', marginTop: '15px' }}
+                  label="Confirmar"
+                  onClick={this.onConfirm}
+                  default
+                />
+            )}
+
+            {draftMovement.caravanas.length > 0 && (
               <RaisedButton
                 className={styles['edit-movement-action']}
                 labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
-                style={{width: '100px', height: '30px', marginTop: '15px' }}
-                label="Confirmar"
+                style={{ width: '80px', height: '30px', marginTop: '15px' }}
+                label="Exportar"
                 onClick={this.onConfirm}
-                default
+                secondary
               />
-          )}
-
-          {draftMovement.caravanas.length > 0 && (
-            <RaisedButton
-              className={styles['edit-movement-action']}
-              labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
-              style={{ width: '80px', height: '30px', marginTop: '15px' }}
-              label="Exportar"
-              onClick={this.onConfirm}
-              secondary
-            />
-          )}
-
+            )}
+          </div>
           <MovementCaravanaList
             showDelete={draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS}
           />

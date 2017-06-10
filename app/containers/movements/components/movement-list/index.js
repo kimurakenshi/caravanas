@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { fetchMovements } from 'app/actions/movement-actions';
 import { getCompanyById, getMovements, getSettings } from 'app/reducers';
+import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
-import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/movement-list.scss';
 import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
 import {
@@ -31,7 +31,7 @@ class MovementList extends Component {
   }
 
   editMovement(id) {
-    console.log('edit');
+    this.props.history.push(`/edit-movement/${id}`);
   }
 
   deleteMovement(id) {
@@ -125,9 +125,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {
     fetchMovements,
   }
-)(MovementList);
+)(MovementList));

@@ -14,12 +14,12 @@ export function setDraftMovement(id) {
   return (dispatch, getState) => {
     const movement = getMovementById(getState(), id);
 
-    return {
+    dispatch({
       payload: {
         movement,
       },
       type: MOVEMENT_DRAFT_SET,
-    };
+    });
   };
 }
 
