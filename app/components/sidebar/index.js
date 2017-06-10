@@ -18,6 +18,7 @@ class Sidebar extends Component {
       <Drawer
         docked={false}
         open={this.props.isOpen}
+        onRequestChange={this.props.toggleSidebar}
       >
         <AppBar
           title="Menu"
