@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchMovements } from 'app/actions/movement-actions';
+import { deleteMovement, fetchMovements } from 'app/actions/movement-actions';
 import { getCompanyById, getMovements, getSettings } from 'app/reducers';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
@@ -16,6 +16,8 @@ import {
 import IconButton from 'material-ui/IconButton';
 import ActionRemove from 'material-ui/svg-icons/content/delete-sweep';
 import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
+import RaisedButton from 'material-ui/RaisedButton';
+import Modal from 'app/components/modal';
 
 class MovementList extends Component {
   constructor(props) {
@@ -24,18 +26,46 @@ class MovementList extends Component {
     this.getStateName = this.getStateName.bind(this);
     this.editMovement = this.editMovement.bind(this);
     this.deleteMovement = this.deleteMovement.bind(this);
+
+    this.state = {
+      idMovementToDelete: null,
+      isDeleteMovementAction: false,
+    };
   }
 
   componentDidMount() {
     this.props.fetchMovements();
   }
 
-  editMovement(id) {
-    this.props.history.push(`/edit-movement/${id}`);
-  }
+  actions = [
+    <RaisedButton
+      className={styles['delete-movement-actions']}
+      label="No"
+      onClick={() => this.setState({
+        idMovementToDelete: null,
+        isDeleteMovementAction: false,
+      })}
+    />,
+    <RaisedButton
+      className={styles['delete-movement-actions']}
+      label="Si"
+      onClick={() => {
+        this.props.deleteMovement(this.state.idMovementToDelete);
+        this.setState({ isDeleteMovementAction: false });
+      }}
+      primary
+    />,
+  ];
 
   deleteMovement(id) {
-    console.log('delete');
+    this.setState({
+      idMovementToDelete: id,
+      isDeleteMovementAction: true,
+    });
+  }
+
+  editMovement(id) {
+    this.props.history.push(`/edit-movement/${id}`);
   }
 
   getStateName(status) {
@@ -57,6 +87,20 @@ class MovementList extends Component {
           return new Date(nextMovement.creationDate) - new Date(currentMovement.creationDate);
         })
       ;
+    }
+
+    if (this.state.isDeleteMovementAction) {
+      return (
+        <Modal
+          title="Eliminar Movimiento"
+          isOpen
+          actions={this.actions}
+        >
+          <p>
+            Está seguro que desea eliminar este movimiento?
+          </p>
+        </Modal>
+      );
     }
 
     return (
@@ -98,9 +142,7 @@ class MovementList extends Component {
                     </IconButton>
                     <IconButton iconStyle={{color: '#FF4081'}}>
                       <ActionRemove
-                        onClick={() => {
-                          this.props.removeMovement(movement.id);
-                        }}
+                        onClick={() => this.deleteMovement(movement.id)}
                       />
                     </IconButton>
                   </TableRowColumn>
@@ -128,6 +170,7 @@ function mapStateToProps(state) {
 export default withRouter(connect(
   mapStateToProps,
   {
+    deleteMovement,
     fetchMovements,
   }
 )(MovementList));
