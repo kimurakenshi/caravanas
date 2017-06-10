@@ -8,7 +8,7 @@ import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/caravanas-list.scss';
 import CARAVANA_LIST_MODE from './enum';
 import FlatButton from 'material-ui/FlatButton';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import ActionForward from 'material-ui/svg-icons/content/forward';
 
 import {

@@ -1,0 +1,19 @@
+@import '~styles/colors';
+
+.movements
+{
+  padding: 30px;
+}
+
+.movements-actions
+{
+  text-align: right;
+}
+
+.movements-link
+{
+  color: $secondary-color;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}

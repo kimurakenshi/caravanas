@@ -30,8 +30,8 @@ class Sidebar extends Component {
         <MenuItem onClick={() => this.redirect('/')}>
           Caravanas
         </MenuItem>
-        <MenuItem onClick={() => this.redirect('/create-movement')}>
-          Crear Movimiento
+        <MenuItem onClick={() => this.redirect('/movements')}>
+          Movimientos
         </MenuItem>
       </Drawer>
     );
