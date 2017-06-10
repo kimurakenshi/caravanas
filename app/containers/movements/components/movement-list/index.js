@@ -125,7 +125,7 @@ class MovementList extends Component {
                 <TableHeaderColumn>Empresa</TableHeaderColumn>
                 <TableHeaderColumn>Estado</TableHeaderColumn>
                 <TableHeaderColumn>Fecha de creación</TableHeaderColumn>
-                <TableHeaderColumn>Acciones</TableHeaderColumn>
+                <TableHeaderColumn style={{ textAlign: 'center' }}>Acciones</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
@@ -136,7 +136,7 @@ class MovementList extends Component {
                   <TableRowColumn>
                     {movement.creationDate}
                   </TableRowColumn>
-                  <TableRowColumn>
+                  <TableRowColumn style={{ textAlign: 'center' }}>
                     <IconButton iconStyle={{color: '#00BCD4'}}>
                       <ActionEdit
                         onClick={() => {

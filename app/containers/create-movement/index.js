@@ -9,6 +9,7 @@ import { saveMovement } from 'app/actions/movement-actions';
 import { initDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
 import PageSubtitle from 'app/components/page-subtitle';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 import { getSettings } from 'app/reducers';
 import { withRouter } from 'react-router-dom';
 import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
@@ -18,6 +19,10 @@ class CreateMovement extends Component {
     super(props);
 
     this.onSave = this.onSave.bind(this);
+
+    this.state = {
+      showConfirmation: false,
+    };
   }
 
   componentDidMount() {
@@ -26,7 +31,13 @@ class CreateMovement extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.draftMovement && nextProps.draftMovement.id) {
-      this.props.history.push(`/edit-movement/${nextProps.draftMovement.id}`);
+      this.setState({
+        showConfirmation: true,
+      });
+
+      setTimeout(() => {
+        this.props.history.push(`/edit-movement/${nextProps.draftMovement.id}`);
+      }, 3000);
     }
   }
 
@@ -35,6 +46,11 @@ class CreateMovement extends Component {
   }
 
   render() {
+    const snackbackStyles = {
+      backgroundColor: '#0097A7',
+      textAlign: 'center',
+    };
+
     return (
       <div className={styles['create-movement']}>
         <PageTitle title="Nuevo Movimiento" />
@@ -53,8 +69,8 @@ class CreateMovement extends Component {
 
           {this.props.draftMovement.caravanas.length > 0 && (
             <RaisedButton
-              labelStyle={{fontSize: '12px', verticalAlign: 'sub'}}
-              style={{width: '50px', height: '30px', marginTop: '15px'}}
+              labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
+              style={{ width: '50px', height: '30px', marginTop: '15px' }}
               label="Guardar"
               onClick={this.onSave}
               primary
@@ -62,6 +78,13 @@ class CreateMovement extends Component {
           )}
 
           <MovementCaravanaList />
+
+          <Snackbar
+            open={this.state.showConfirmation}
+            bodyStyle={snackbackStyles}
+            message="El movimiento se guardó correctamente"
+            autoHideDuration={4000}
+          />
         </div>
       </div>
     );

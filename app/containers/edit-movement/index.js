@@ -11,6 +11,7 @@ import Modal from 'app/components/modal';
 import PageSubtitle from 'app/components/page-subtitle';
 import RaisedButton from 'material-ui/RaisedButton';
 import MOVEMENT_STATUS from 'app/containers/create-movement/enum';
+import Snackbar from 'material-ui/Snackbar';
 
 class EditMovement extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class EditMovement extends Component {
 
     this.state = {
       isConfirmMovementAction: false,
+      showConfirmation: false,
     };
   }
 
@@ -47,6 +49,9 @@ class EditMovement extends Component {
 
   onSave() {
     this.props.saveMovement(this.props.draftMovement, MOVEMENT_STATUS.IN_PROGRESS);
+    this.setState({
+      showConfirmation: true,
+    });
   }
 
   onConfirm() {
@@ -70,6 +75,11 @@ class EditMovement extends Component {
     const {
       draftMovement
     } = this.props;
+
+    const snackbackStyles = {
+      backgroundColor: '#0097A7',
+      textAlign: 'center',
+    };
 
     const pageTitle = draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS ?
       'Editar Movimiento' :
@@ -179,6 +189,13 @@ class EditMovement extends Component {
             showDelete={draftMovement.status === MOVEMENT_STATUS.IN_PROGRESS}
           />
         </div>
+
+        <Snackbar
+          open={this.state.showConfirmation}
+          bodyStyle={snackbackStyles}
+          message="El movimiento se guardó correctamente"
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
