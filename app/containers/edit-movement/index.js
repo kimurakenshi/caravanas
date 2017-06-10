@@ -7,6 +7,7 @@ import { CaravanaList } from 'app/containers/caravanas/components';
 import { MovementCaravanaList } from '../create-movement/components';
 import { confirmMovement, saveMovement } from 'app/actions/movement-actions';
 import { setDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
+import { exportMovement } from 'app/common/file-service';
 import Modal from 'app/components/modal';
 import PageSubtitle from 'app/components/page-subtitle';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -19,6 +20,7 @@ class EditMovement extends Component {
 
     this.onSave = this.onSave.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.onExportMovement = this.onExportMovement.bind(this);
 
     this.state = {
       isConfirmMovementAction: false,
@@ -56,6 +58,10 @@ class EditMovement extends Component {
 
   onConfirm() {
     this.setState({ isConfirmMovementAction: true });
+  }
+
+  onExportMovement() {
+    exportMovement(this.props.draftMovement);
   }
 
   getStateName(status) {
@@ -180,7 +186,7 @@ class EditMovement extends Component {
                 labelStyle={{ fontSize: '12px', verticalAlign: 'sub' }}
                 style={{ width: '80px', height: '30px', marginTop: '15px' }}
                 label="Exportar"
-                onClick={this.onConfirm}
+                onClick={this.onExportMovement}
                 secondary
               />
             )}
