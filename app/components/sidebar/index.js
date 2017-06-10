@@ -26,7 +26,7 @@ class Sidebar extends Component {
           onLeftIconButtonTouchTap={this.props.toggleSidebar}
         />
         <MenuItem onClick={() => this.redirect('/companies')}>
-          Companies
+          Empresas
         </MenuItem>
         <MenuItem onClick={() => this.redirect('/')}>
           Caravanas
