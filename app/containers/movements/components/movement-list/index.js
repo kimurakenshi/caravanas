@@ -19,6 +19,7 @@ import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
 import RaisedButton from 'material-ui/RaisedButton';
 import Modal from 'app/components/modal';
 import Movement from '../movement';
+import { isGreaterThan, parseDateToString } from 'app/common/date-service';
 
 class MovementList extends Component {
   constructor(props) {
@@ -84,9 +85,7 @@ class MovementList extends Component {
   render() {
     if (this.props.movements.length > 0) {
       this.props.movements
-        .sort((currentMovement, nextMovement) => {
-          return new Date(nextMovement.creationDate) - new Date(currentMovement.creationDate);
-        })
+        .sort((currentMovement, nextMovement) => isGreaterThan(nextMovement.creationDate, currentMovement.creationDate))
       ;
     }
 
@@ -98,11 +97,13 @@ class MovementList extends Component {
           isOpen
           actions={this.actions}
         >
-          <p>
-            Está seguro que desea eliminar este movimiento?
-          </p>
+          <div>
+            <p className={styles['movement-list-modal-message']} >
+              Está seguro que desea eliminar este movimiento?
+            </p>
 
-          <Movement id={this.state.idMovementToDelete}/>
+            <Movement id={this.state.idMovementToDelete} />
+          </div>
         </Modal>
       );
     }

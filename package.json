@@ -193,6 +193,7 @@
     "history": "^4.6.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.18.0",
+    "moment": "2.18.1",
     "momentjs": "^2.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

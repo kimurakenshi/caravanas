@@ -1,12 +1,13 @@
 import { MOVEMENTS_STORAGE_KEY, STORAGE_TYPE } from './enum';
 import * as baseStorage from './base-storage';
 import has from 'lodash/has';
+import { getCurrentDate } from 'app/common/date-service';
 
 export function save(movement) {
   const movementToSave = Object.assign({}, movement);
 
   if (!has(movement, 'creationDate') || !movementToSave.creationDate) {
-    movementToSave['creationDate'] = new Date().toDateString();
+    movementToSave['creationDate'] = getCurrentDate();
   }
 
   return baseStorage
