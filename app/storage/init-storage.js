@@ -19,8 +19,10 @@ function getCompaniesInitialState(companiesData) {
   return Object.assign({}, companyInitialState, { companies: companiesInitialValue });
 }
 
-function getMovementsInitialState(movementsData) {
-  const movementsInitialValue = !isEmpty(movementsData) ? movementsData : [];
+function getMovementsInitialState(movementsData, activeCompanyId) {
+  const movementsInitialValue = !isEmpty(movementsData) ?
+    movementsData.filter((movement) => movement.idCompany === activeCompanyId) :
+    [];
 
   return Object.assign({}, movementInitialState, { movements: movementsInitialValue });
 }
@@ -37,7 +39,10 @@ export default function getInitialStorage() {
                   .then((movements) => {
                     resolve({
                       companyReducer: getCompaniesInitialState(companies),
-                      movementReducer: getMovementsInitialState(movements),
+                      movementReducer: getMovementsInitialState(
+                        movements,
+                        settings.data.activeCompanyId,
+                      ),
                       settingsReducer: settings,
                     });
                   })
