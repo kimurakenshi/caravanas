@@ -39,6 +39,9 @@ class Sidebar extends Component {
         <MenuItem onClick={() => this.onMenuItemClick('/movements')}>
           Movimientos
         </MenuItem>
+        <MenuItem onClick={() => this.onMenuItemClick('/configuration')}>
+          Configuración
+        </MenuItem>
       </Drawer>
     );
   }
