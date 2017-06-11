@@ -13,6 +13,11 @@ class Sidebar extends Component {
     this.props.history.push(path);
   }
 
+  onMenuItemClick(path) {
+    this.redirect(path);
+    this.props.toggleSidebar();
+  }
+
   render() {
     return (
       <Drawer
@@ -25,13 +30,13 @@ class Sidebar extends Component {
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.props.toggleSidebar}
         />
-        <MenuItem onClick={() => this.redirect('/companies')}>
+        <MenuItem onClick={() => this.onMenuItemClick('/companies')}>
           Empresas
         </MenuItem>
-        <MenuItem onClick={() => this.redirect('/')}>
+        <MenuItem onClick={() => this.onMenuItemClick('/')}>
           Caravanas
         </MenuItem>
-        <MenuItem onClick={() => this.redirect('/movements')}>
+        <MenuItem onClick={() => this.onMenuItemClick('/movements')}>
           Movimientos
         </MenuItem>
       </Drawer>

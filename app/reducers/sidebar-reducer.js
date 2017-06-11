@@ -13,7 +13,7 @@ export default function sidebarReducer(state = initialState, action) {
     }
 
     default: {
-      return initialState;
+      return state;
     }
   }
 }
