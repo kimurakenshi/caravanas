@@ -1,7 +1,7 @@
-import { SETTINGS_STORAGE_KEY, COMPANY_STORAGE_KEY } from './enum';
-import { initialState } from 'app/reducers/company-reducer';
+import { SETTINGS_STORAGE_KEY, COMPANY_STORAGE_KEY, MOVEMENTS_STORAGE_KEY } from './enum';
+import { initialState as companyInitialState } from 'app/reducers/company-reducer';
+import { initialState as movementInitialState } from 'app/reducers/movement-reducer';
 import isEmpty from 'lodash/isEmpty';
-import get from 'lodash/get';
 import * as baseStorage from './base-storage';
 
 const initialSettings = {
@@ -16,10 +16,16 @@ const initialSettings = {
 function getCompaniesInitialState(companiesData) {
   const companiesInitialValue = !isEmpty(companiesData) ? companiesData : [];
 
-  return Object.assign({}, initialState, { companies: companiesInitialValue });
+  return Object.assign({}, companyInitialState, { companies: companiesInitialValue });
 }
 
-export function getInitialStorage() {
+function getMovementsInitialState(movementsData) {
+  const movementsInitialValue = !isEmpty(movementsData) ? movementsData : [];
+
+  return Object.assign({}, movementInitialState, { movements: movementsInitialValue });
+}
+
+export default function getInitialStorage() {
   return new Promise((resolve, reject) => {
     baseStorage.get(SETTINGS_STORAGE_KEY)
       .then((settings) => {
@@ -27,10 +33,17 @@ export function getInitialStorage() {
           if (settings.data.activeCompanyId) {
             baseStorage.get(COMPANY_STORAGE_KEY)
               .then((companies) => {
-                resolve({
-                  companyReducer: getCompaniesInitialState(companies),
-                  settingsReducer: settings,
-                });
+                baseStorage.get(MOVEMENTS_STORAGE_KEY)
+                  .then((movements) => {
+                    resolve({
+                      companyReducer: getCompaniesInitialState(companies),
+                      movementReducer: getMovementsInitialState(movements),
+                      settingsReducer: settings,
+                    });
+                  })
+                  .catch(() => {
+                    reject('Error al inicializar la aplicación.');
+                  });
               })
               .catch(() => {
                 reject('Error al inicializar la aplicación.');

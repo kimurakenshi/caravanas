@@ -14,7 +14,7 @@ const {
   MOVEMENT_LIST_SET_MODE,
 } = actionTypes;
 
-const initialState = {
+export const initialState = {
   movements: [],
   editMovementId: null,
   error: null,

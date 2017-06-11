@@ -8,6 +8,7 @@ import { MovementCaravanaList } from '../create-movement/components';
 import { confirmMovement, saveMovement } from 'app/actions/movement-actions';
 import { setDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
 import { exportMovement } from 'app/common/file-service';
+import { withRouter } from 'react-router-dom';
 import Modal from 'app/components/modal';
 import PageSubtitle from 'app/components/page-subtitle';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -29,6 +30,11 @@ class EditMovement extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.match.params.id) {
+      this.props.history.push('/movements');
+      return;
+    }
+
     this.props.setDraftMovement(this.props.match.params.id);
   }
 
@@ -215,11 +221,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {
     confirmMovement,
     saveMovement,
     setDraftMovement,
   }
-)(EditMovement);
+)(EditMovement));
