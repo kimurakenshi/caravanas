@@ -15,13 +15,24 @@ class EditCaravana extends Component {
     super(props);
 
     this.state = {
+      description: '',
       errorMessage: '',
       isDirty: false,
       isValid: true,
+      number: '',
     };
 
     this.onSaveAction = this.onSaveAction.bind(this);
     this.validateForm = this.validateForm.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.caravana) {
+      this.setState({
+        number: this.props.caravana.number,
+        description: this.props.caravana.description,
+      });
+    }
   }
 
   actions = [
@@ -42,8 +53,8 @@ class EditCaravana extends Component {
     if (this.validateForm()) {
       this.props.saveCaravana({
         ...this.props.caravana,
-        number: this.numberInput.getValue().trim(),
-        description: this.descriptionInput.getValue().trim(),
+        number: this.state.number.trim(),
+        description: this.state.description.trim(),
       });
 
       this.props.setListMode(CARAVANA_LIST_MODE.VIEW_MODE);
@@ -51,7 +62,7 @@ class EditCaravana extends Component {
   }
 
   validateForm() {
-    const caravanaNumber = this.numberInput.getValue().trim();
+    const caravanaNumber = this.state.number.trim();
 
     if (isEmpty(caravanaNumber)) {
       this.setState({
@@ -99,17 +110,17 @@ class EditCaravana extends Component {
               errorStyle={errorStyle}
               floatingLabelText="Número"
               errorText={errorMessage}
-              defaultValue={this.props.caravana.number}
-              ref={(input) => { this.numberInput = input; }}
+              value={this.state.number}
+              onChange={(event) => this.setState({ number: event.target.value.toUpperCase() })}
             />
           </div>
 
           <div>
             <TextField
-              multiLine
               floatingLabelText="Descripción"
-              defaultValue={this.props.caravana.description}
-              ref={(input) => { this.descriptionInput = input; }}
+              multiLine
+              onChange={(event) => this.setState({ description: event.target.value })}
+              value={this.state.description}
             />
           </div>
         </div>

@@ -142,11 +142,11 @@ class CreateCaravana extends Component {
 
           <div>
             <TextField
-              multiLine
               className={styles['create-caravana-input']}
               floatingLabelText="Descripción"
-              value={description}
+              multiLine
               onChange={(event) => this.setState({ description: event.target.value })}
+              value={description}
             />
           </div>
         </div>
