@@ -26,6 +26,7 @@ class EditMovement extends Component {
     this.state = {
       isConfirmMovementAction: false,
       showConfirmation: false,
+      confirmationMessage: '',
     };
   }
 
@@ -59,6 +60,7 @@ class EditMovement extends Component {
     this.props.saveMovement(this.props.draftMovement, MOVEMENT_STATUS.IN_PROGRESS);
     this.setState({
       showConfirmation: true,
+      confirmationMessage: 'El movimiento se guardó correctamente',
     });
   }
 
@@ -67,7 +69,19 @@ class EditMovement extends Component {
   }
 
   onExportMovement() {
-    exportMovement(this.props.draftMovement);
+    exportMovement(this.props.draftMovement)
+      .then((message) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: message,
+        });
+      }).catch((err) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: err,
+        });
+      })
+    ;
   }
 
   getStateName(status) {
@@ -89,7 +103,7 @@ class EditMovement extends Component {
     } = this.props;
 
     const snackbackStyles = {
-      backgroundColor: '#0097A7',
+      backgroundColor: '#00BCD4',
       textAlign: 'center',
     };
 
@@ -205,7 +219,7 @@ class EditMovement extends Component {
         <Snackbar
           open={this.state.showConfirmation}
           bodyStyle={snackbackStyles}
-          message="El movimiento se guardó correctamente"
+          message={this.state.confirmationMessage}
           autoHideDuration={4000}
         />
       </div>

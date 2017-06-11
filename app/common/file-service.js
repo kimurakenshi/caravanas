@@ -18,13 +18,15 @@ export function exportMovement(movement) {
     .join('\n')
   ;
 
-  dialog.showSaveDialog(dialogOptions, (filePath) => {
-    fs.writeFile(filePath, fileContent, (err) => {
-      if (err) {
-        alert('Se produjo un error al intentar guardar el archivo.');
-      } else {
-        alert('El movimiento se exportó correctamente.');
-      }
+  return new Promise((resolve, reject) => {
+    dialog.showSaveDialog(dialogOptions, (filePath) => {
+      fs.writeFile(filePath, fileContent, (err) => {
+        if (err) {
+          reject('Se produjo un error al intentar guardar el archivo.');
+        } else {
+          resolve('El movimiento se exportó correctamente.');
+        }
+      });
     });
   });
 }

@@ -47,7 +47,7 @@ class CreateMovement extends Component {
 
   render() {
     const snackbackStyles = {
-      backgroundColor: '#0097A7',
+      backgroundColor: '#00BCD4',
       textAlign: 'center',
     };
 
