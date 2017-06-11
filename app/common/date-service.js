@@ -15,6 +15,10 @@ export function getDateForExport(date) {
   return moment(date, DATE_FORMAT).format(DATE_EXPORT_FORMAT);
 }
 
+export function getDateForExportConfig() {
+  return moment().format(DATE_EXPORT_FORMAT);
+}
+
 export function isGreaterThan(firsDate, secondDate) {
   const parsedFirstDate = moment(firsDate, DATE_FORMAT);
   const parsedSecondDate = moment(secondDate, DATE_FORMAT);

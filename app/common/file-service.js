@@ -1,6 +1,7 @@
 import electron from 'electron';
 import fs from 'fs';
-import { getDateForExport } from 'app/common/date-service';
+import { getDateForExport, getDateForExportConfig } from 'app/common/date-service';
+import * as baseStorage from 'app/storage/base-storage';
 
 const remote = electron.remote;
 const dialog = remote.dialog;
@@ -32,7 +33,29 @@ export function exportMovement(movement) {
 }
 
 export function exportConfig() {
+  const dialogOptions = {
+    defaultPath: `caravanas-config-${getDateForExportConfig()}.json`,
+    title: 'Exportar Configuración',
+  };
 
+  return new Promise((resolve, reject) => {
+    baseStorage
+    .getAll()
+    .then((data) => {
+      dialog.showSaveDialog(dialogOptions, (filePath) => {
+        fs.writeFile(filePath, JSON.stringify(data), (err) => {
+          if (err) {
+            reject('Se produjo un error al intentar exportar la información.');
+          } else {
+            resolve('La configuración se exportó correctamente.');
+          }
+        });
+      });
+    })
+    .catch(() => {
+      reject('Se produjo un error al intentar exportar la información.');
+    });
+  });
 }
 
 export function importConfig() {

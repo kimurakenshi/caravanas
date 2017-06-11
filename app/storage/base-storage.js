@@ -141,3 +141,15 @@ export function updateStorage(key, data) {
     });
   });
 }
+
+export function getAll() {
+  return new Promise((resolve, reject) => {
+    storage.getAll((error, data) => {
+      if (error) {
+        reject('Se produjo un error al intentar exportar la configuración.');
+      }
+
+      resolve(data);
+    });
+  });
+}

@@ -1,29 +1,73 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from './style/configuration.scss';
 import PageTitle from '../../components/page-title';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
+import { exportConfig } from 'app/common/file-service';
 
-export default function Configuration() {
-  return (
-    <div className={styles.configuration}>
-      <PageTitle title="Configuración" />
+export default class Configuration extends Component {
+  constructor(props) {
+    super(props);
 
-      <div className={styles['configuration-container']}>
-        <div className={styles['configuration-actions']}>
-          <RaisedButton
-            label="Exportar Datos"
-            primary
-          />
+    this.onExportConfig = this.onExportConfig.bind(this);
+
+    this.state = {
+      showConfirmation: false,
+      confirmationMessage: '',
+    };
+  }
+
+  onExportConfig() {
+    exportConfig()
+      .then((msg) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: msg,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: err,
+        });
+      })
+    ;
+  }
+
+  render() {
+    const snackbackStyles = {
+      backgroundColor: '#00BCD4',
+      textAlign: 'center',
+    };
+
+    return (
+      <div className={styles.configuration}>
+        <PageTitle title="Configuración"/>
+
+        <div className={styles['configuration-container']}>
+          <div className={styles['configuration-actions']}>
+            <RaisedButton
+              label="Exportar Datos"
+              onClick={this.onExportConfig}
+              primary
+            />
+          </div>
+
+          <div className={styles['configuration-actions']}>
+            <RaisedButton
+              label="Importar Datos"
+              secondary
+            />
+          </div>
         </div>
 
-        <div className={styles['configuration-actions']}>
-          <RaisedButton
-            label="Importar Datos"
-            secondary
-          />
-        </div>
+        <Snackbar
+          open={this.state.showConfirmation}
+          bodyStyle={snackbackStyles}
+          message={this.state.confirmationMessage}
+          autoHideDuration={3000}
+        />
       </div>
-
-    </div>
-  );
+    );
+  }
 }
