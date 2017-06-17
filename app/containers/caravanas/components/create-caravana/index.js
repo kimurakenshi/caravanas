@@ -87,6 +87,15 @@ class CreateCaravana extends Component {
       return false;
     }
 
+    if (!this.state.isValid) {
+      this.setState({
+        errorMessage: '',
+        showInline: false,
+        isValid: true,
+        isDirty: true,
+      });
+    }
+
     return true;
   }
 
