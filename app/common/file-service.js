@@ -2,6 +2,7 @@ import electron from 'electron';
 import fs from 'fs';
 import { getDateForExport, getDateForExportConfig } from 'app/common/date-service';
 import * as baseStorage from 'app/storage/base-storage';
+import importConfigData from 'app/storage/storage-import-service';
 
 const remote = electron.remote;
 const dialog = remote.dialog;
@@ -59,5 +60,33 @@ export function exportConfig() {
 }
 
 export function importConfig() {
+  return new Promise((resolve, reject) => {
+    dialog.showOpenDialog((fileNames) => {
+      if (fileNames === undefined) {
+        reject('No se ha seleccionado el archivo a importar.');
 
+        return;
+      }
+
+      fs.readFile(fileNames[0], 'utf-8', (err, data) => {
+        if (err) {
+          reject('Se produjo un error al procesar el archivo a importar.');
+
+          return;
+        }
+
+        importConfigData(JSON.parse(data))
+          .then((response) => {
+            resolve(response);
+          })
+          .then(() => {
+            baseStorage.getAll().then((c) => console.log(c));
+          })
+          .catch((err) => {
+            reject(err);
+          })
+        ;
+      });
+    });
+  });
 }

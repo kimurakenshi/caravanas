@@ -7,3 +7,11 @@ export const STORAGE_TYPE = {
   OBJECT: 'OBJECT',
 };
 
+export function getStorageKeyValues() {
+  return [
+    CARAVANAS_STORAGE_KEY,
+    COMPANY_STORAGE_KEY,
+    MOVEMENTS_STORAGE_KEY,
+    SETTINGS_STORAGE_KEY,
+  ];
+}

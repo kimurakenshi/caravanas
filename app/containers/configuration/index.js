@@ -3,13 +3,14 @@ import styles from './style/configuration.scss';
 import PageTitle from '../../components/page-title';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
-import { exportConfig } from 'app/common/file-service';
+import { exportConfig, importConfig } from 'app/common/file-service';
 
 export default class Configuration extends Component {
   constructor(props) {
     super(props);
 
     this.onExportConfig = this.onExportConfig.bind(this);
+    this.onImportConfig = this.onImportConfig.bind(this);
 
     this.state = {
       showConfirmation: false,
@@ -34,6 +35,23 @@ export default class Configuration extends Component {
     ;
   }
 
+  onImportConfig() {
+    importConfig()
+      .then((msg) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: msg,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: err,
+        });
+      })
+    ;
+  }
+
   render() {
     const snackbackStyles = {
       backgroundColor: '#00BCD4',
@@ -42,7 +60,7 @@ export default class Configuration extends Component {
 
     return (
       <div className={styles.configuration}>
-        <PageTitle title="Configuración"/>
+        <PageTitle title="Configuración" />
 
         <div className={styles['configuration-container']}>
           <div className={styles['configuration-actions']}>
@@ -56,6 +74,7 @@ export default class Configuration extends Component {
           <div className={styles['configuration-actions']}>
             <RaisedButton
               label="Importar Datos"
+              onClick={this.onImportConfig}
               secondary
             />
           </div>

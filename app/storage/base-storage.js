@@ -14,10 +14,7 @@ window.cleanM = () => {
   updateStorage('MOVEMENT', null);
 };
 window.cleanStorage = () => {
-  updateStorage('SETTINGS', null);
-  updateStorage('COMPANY', null);
-  updateStorage('CARAVANAS', null);
-  updateStorage('MOVEMENT', null);
+  clear();
 };
 
 function parseStorageResponse(response, emptyResponse = null) {
@@ -150,6 +147,18 @@ export function getAll() {
       }
 
       resolve(data);
+    });
+  });
+}
+
+export function clear() {
+  return new Promise((resolve, reject) => {
+    storage.clear((error) => {
+      if (error) {
+        reject('Se produjo un error al intentar reinicializar los datos.');
+      }
+
+      resolve();
     });
   });
 }
