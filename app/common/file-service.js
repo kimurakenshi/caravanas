@@ -15,9 +15,11 @@ export function exportMovement(movement) {
     title: 'Exportar Movimiento',
   };
 
+  const newLine = process.platform === 'darwin' ? '\n' : '\r\n';
+
   const fileContent = movement.caravanas
     .map((caravana) => caravana.number)
-    .join('\n')
+    .join(newLine)
   ;
 
   return new Promise((resolve, reject) => {
