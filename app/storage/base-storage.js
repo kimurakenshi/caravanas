@@ -79,7 +79,7 @@ export function save(key, item, storageType) {
             storageData = storageData.filter((item) => item.id !== itemToSave.id);
           }
 
-          storageData.push(itemToSave);
+          storageData.unshift(itemToSave);
         } else {
           storageData = itemToSave;
         }

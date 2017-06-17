@@ -62,12 +62,11 @@ export default function caravanaReducer(state = initialState, action) {
     case CARAVANA_SAVE_RECEIVED: {
       const updatedCaravanas = state.caravanas
         .filter((caravana) => caravana.id !== action.caravana.id)
-        .concat(action.caravana)
       ;
 
       return {
         ...state,
-        caravanas: updatedCaravanas,
+        caravanas: [action.caravana].concat(updatedCaravanas),
         isFetching: false,
         error: null,
       };
