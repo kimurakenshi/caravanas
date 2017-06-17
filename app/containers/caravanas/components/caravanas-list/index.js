@@ -44,8 +44,6 @@ class CaravanaList extends Component {
   }
 
   removeCaravana(caravanaId) {
-    // @todo validate this
-
     this.props.deleteCaravana(caravanaId);
   }
 

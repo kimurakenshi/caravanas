@@ -21,11 +21,11 @@ export function receiveDelete(caravanaId) {
   };
 }
 
-export default function deleteCaravana(caravana) {
+export default function deleteCaravana(caravanaId) {
   return (dispatch) => {
     dispatch(requestDelete());
 
-    return removeById(caravana)
+    return removeById(caravanaId)
       .then((json) => {
         dispatch(receiveDelete(json));
       })
