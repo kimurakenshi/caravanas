@@ -11,7 +11,6 @@ import CARAVANA_LIST_MODE from './enum';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import ActionForward from 'material-ui/svg-icons/content/forward';
-import SearchCaravanas from 'app/containers/caravanas/components/search-caravanas';
 import Snackbar from 'material-ui/Snackbar';
 
 import {
@@ -100,7 +99,6 @@ class CaravanaList extends Component {
           <div className={styles['caravana-list-header-item']}>
             <PageSubtitle title="Caravanas" />
           </div>
-
           <div className={styles['caravana-list-header-item-action']}>
             {this.props.caravanas.length > 0 && showCreateMovement &&  (
               <Link
@@ -125,14 +123,9 @@ class CaravanaList extends Component {
           </div>
         </div>
 
-        <div>
-          <SearchCaravanas />
-        </div>
-
         {this.props.caravanas.length === 0 && (
           <p className={styles['caravana-list-empty']} >
-            No existen caravanas asociadas a esta empresa o no sé encontraron
-            caravanas para el criterio de búsqueda actual.
+            No existen caravanas asociadas a esta empresa.
           </p>
         )}
 
