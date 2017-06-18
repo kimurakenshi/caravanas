@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { removeCompany, fetchCompanies, setListMode } from 'app/actions/company-actions';
+import { deleteCompany, fetchCompanies, setListMode } from 'app/actions/company-actions';
 import { getCompanies, getSettings } from 'app/reducers';
 import { saveSettings } from 'app/actions/settings-actions';
 import React, { Component } from 'react';
@@ -19,6 +19,7 @@ import Toggle from 'material-ui/Toggle';
 import IconButton from 'material-ui/IconButton';
 import ActionRemove from 'material-ui/svg-icons/content/delete-sweep';
 import ActionEdit from 'material-ui/svg-icons/editor/mode-edit';
+import Snackbar from 'material-ui/Snackbar';
 
 class CompanyList extends Component {
   constructor(props) {
@@ -26,6 +27,10 @@ class CompanyList extends Component {
 
     this.activateCompany = this.activateCompany.bind(this);
     this.editCompany = this.editCompany.bind(this);
+
+    this.state = {
+      showConfirmation: false,
+    };
   }
 
   componentDidMount() {
@@ -47,6 +52,11 @@ class CompanyList extends Component {
   }
 
   render() {
+    const snackbackStyles = {
+      backgroundColor: '#FF4081',
+      textAlign: 'center',
+    };
+
     if (this.props.viewMode === COMPANY_LIST_MODE.EDIT_MODE) {
       return <EditCompany id={this.props.editCompanyId} />;
     }
@@ -84,33 +94,59 @@ class CompanyList extends Component {
                       if (company.id === this.props.activeCompanyId) {
                         return (
                           <span className={styles['company-list-active']}>
-                              ACTIVA
-                            </span>
+                            ACTIVA
+                          </span>
                         );
                       }
 
                       return (
                         <Toggle
-                          onClick={() => { this.activateCompany(company.id); }}
+                          onClick={() => {
+                            this.setState({ showConfirmation: false });
+                            this.activateCompany(company.id);
+                          }}
                         />
                       );
                     })()}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <IconButton iconStyle={{ color: '#00BCD4' }}>
-                        <ActionEdit onClick={() => { this.editCompany(company.id); }} />
-                      </IconButton>
-                      <IconButton iconStyle={{ color: '#FF4081' }}>
-                        {/* @todo: validate movements and caravanas before deleting*/}
+                    <IconButton iconStyle={{ color: '#00BCD4' }} >
+                      <ActionEdit
+                        onClick={() => {
+                          this.setState({ showConfirmation: false });
+                          this.editCompany(company.id);
+                        }}
+                      />
+                    </IconButton>
+                    <IconButton
+                      disabled={company.id === this.props.activeCompanyId}
+                      iconStyle={{ color: '#FF4081' }}
+                    >
+                      <ActionRemove
+                        onClick={() => {
+                          this.setState({ showConfirmation: true });
 
-                        <ActionRemove onClick={() => { this.props.removeCompany(company.id); }} />
-                      </IconButton>
+                          if (company.id === this.props.activeCompanyId) {
+                            return;
+                          }
+
+                          this.props.deleteCompany(company.id);
+                        }}
+                      />
+                    </IconButton>
                   </TableRowColumn>
                 </TableRow>
                 ))}
             </TableBody>
           </Table>
         )}
+
+        <Snackbar
+          open={!!this.props.error && this.state.showConfirmation}
+          bodyStyle={snackbackStyles}
+          message={this.props.error || ''}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
@@ -123,6 +159,7 @@ function mapStateToProps(state) {
   return {
     activeCompanyId: settings.data.activeCompanyId,
     companies: companyEntity.companies,
+    error: companyEntity.error,
     editCompanyId: companyEntity.editCompanyId,
     viewMode: companyEntity.viewMode,
   };
@@ -131,8 +168,8 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
+    deleteCompany,
     fetchCompanies,
-    removeCompany,
     saveSettings,
     setListMode,
   }
