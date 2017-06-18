@@ -3,6 +3,7 @@ import EditCaravana from '../edit-caravana';
 import { fetchCaravanas, deleteCaravana, setListMode } from 'app/actions/caravana-actions';
 import { getCaravanas } from 'app/reducers';
 import { addCaravanaToDraftMovement } from 'app/actions/movement-actions/movement-draft-action';
+import { exportCaravanas } from 'app/common/file-service';
 import React, { Component } from 'react';
 import PageSubtitle from 'app/components/page-subtitle';
 import styles from './style/caravanas-list.scss';
@@ -11,6 +12,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import ActionForward from 'material-ui/svg-icons/content/forward';
 import SearchCaravanas from '../search-caravanas';
+import Snackbar from 'material-ui/Snackbar';
 
 import {
   Table,
@@ -28,20 +30,46 @@ class CaravanaList extends Component {
   constructor(props) {
     super(props);
 
-    this.addCaravanaToMovement = this.addCaravanaToMovement.bind(this);
     this.editCaravana = this.editCaravana.bind(this);
     this.removeCaravana = this.removeCaravana.bind(this);
+    this.onExportAction = this.onExportAction.bind(this);
+    this.onConfirmationClose = this.onConfirmationClose.bind(this);
+
+    this.state = {
+      showConfirmation: false,
+      confirmationMessage: '',
+    };
   }
   componentDidMount() {
     this.props.fetchCaravanas();
   }
 
-  addCaravanaToMovement(caravanaId) {
-
-  }
-
   editCaravana(caravanaId) {
     this.props.setListMode(CARAVANA_LIST_MODE.EDIT_MODE, caravanaId);
+  }
+
+  onConfirmationClose() {
+    this.setState({
+      showConfirmation: false,
+      confirmationMessage: '',
+    });
+  }
+
+  onExportAction() {
+    exportCaravanas(this.props.caravanas)
+      .then((response) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: response,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          showConfirmation: true,
+          confirmationMessage: err,
+        });
+      })
+    ;
   }
 
   removeCaravana(caravanaId) {
@@ -49,11 +77,17 @@ class CaravanaList extends Component {
   }
 
   render() {
+    const snackbackStyles = {
+      backgroundColor: '#00BCD4',
+      textAlign: 'center',
+    };
+
     const {
       showActions,
+      showAddToMovement,
       showCreateMovement,
       showDescription,
-      showAddToMovement,
+      showExport,
     } = this.props;
 
     if (this.props.viewMode === CARAVANA_LIST_MODE.EDIT_MODE) {
@@ -75,6 +109,18 @@ class CaravanaList extends Component {
               >
                 Crear Movimiento
               </Link>
+            )}
+          </div>
+
+          <div className={styles['caravana-list-header-item-action']}>
+            {this.props.caravanas.length > 0 && showExport && (
+              <a
+                href="#"
+                className={styles['caravana-list-link']}
+                onClick={this.onExportAction}
+              >
+                Exportar
+              </a>
             )}
           </div>
         </div>
@@ -151,6 +197,14 @@ class CaravanaList extends Component {
             </TableBody>
           </Table>
         )}
+
+        <Snackbar
+          open={this.state.showConfirmation}
+          bodyStyle={snackbackStyles}
+          message={this.state.confirmationMessage}
+          autoHideDuration={2000}
+          onRequestClose={this.onConfirmationClose}
+        />
       </div>
     );
   }
@@ -161,6 +215,7 @@ CaravanaList.defaultProps = {
   showCreateMovement: true,
   showDescription: true,
   showAddToMovement: false,
+  showExport: false,
 };
 
 function mapStateToProps(state) {

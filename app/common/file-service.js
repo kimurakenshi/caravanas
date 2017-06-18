@@ -1,6 +1,6 @@
 import electron from 'electron';
 import fs from 'fs';
-import { getDateForExport, getDateForExportConfig } from 'app/common/date-service';
+import {getCurrentDateForExport, getDateForExport, getDateForExportConfig } from 'app/common/date-service';
 import * as baseStorage from 'app/storage/base-storage';
 import importConfigData from 'app/storage/storage-import-service';
 
@@ -29,6 +29,34 @@ export function exportMovement(movement) {
           reject('Se produjo un error al intentar guardar el archivo.');
         } else {
           resolve('El movimiento se exportó correctamente.');
+        }
+      });
+    });
+  });
+}
+
+export function exportCaravanas(caravanas) {
+  const fileName = `caravanas-${getCurrentDateForExport()}.txt`;
+
+  const dialogOptions = {
+    defaultPath: fileName,
+    title: 'Exportar Caravanas',
+  };
+
+  const newLine = process.platform === 'darwin' ? '\n' : '\r\n';
+
+  const fileContent = caravanas
+    .map((caravana) => caravana.number)
+    .join(newLine)
+  ;
+
+  return new Promise((resolve, reject) => {
+    dialog.showSaveDialog(dialogOptions, (filePath) => {
+      fs.writeFile(filePath, fileContent, (err) => {
+        if (err) {
+          reject('Se produjo un error al intentar guardar el archivo.');
+        } else {
+          resolve('Las caravanas se exportaron correctamente.');
         }
       });
     });

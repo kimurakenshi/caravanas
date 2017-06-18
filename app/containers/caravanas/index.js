@@ -11,7 +11,7 @@ export default function Caravanas() {
       <CreateCaravana />
 
       <div className={styles['caravanas-list']}>
-        <CaravanaList />
+        <CaravanaList showExport />
       </div>
     </div>
   );

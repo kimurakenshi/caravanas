@@ -9,6 +9,10 @@ export function getCurrentDate() {
   return moment().format(DATE_FORMAT);
 }
 
+export function getCurrentDateForExport() {
+  return moment().format(DATE_EXPORT_FORMAT);
+}
+
 export function parseDateToString(date) {
   return moment(date, DATE_FORMAT).format(DATE_FORMAT);
 }
