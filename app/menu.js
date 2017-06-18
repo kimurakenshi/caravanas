@@ -63,9 +63,9 @@ export default class MenuBuilder {
 
   buildDefaultTemplate() {
     const templateDefault = [{
-      label: '&File',
+      label: '&Archivo',
       submenu: [{
-        label: '&Close',
+        label: '&Salir',
         accelerator: 'Ctrl+W',
         click: () => {
           this.mainWindow.close();
