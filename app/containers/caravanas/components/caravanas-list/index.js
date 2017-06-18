@@ -11,7 +11,7 @@ import CARAVANA_LIST_MODE from './enum';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import ActionForward from 'material-ui/svg-icons/content/forward';
-import SearchCaravanas from '../search-caravanas';
+import SearchCaravanas from 'app/containers/caravanas/components/search-caravanas';
 import Snackbar from 'material-ui/Snackbar';
 
 import {
