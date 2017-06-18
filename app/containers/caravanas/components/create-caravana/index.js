@@ -165,7 +165,7 @@ class CreateCaravana extends Component {
           bodyStyle={snackbackStyles}
           message={errorMessage}
           onRequestClose={this.onSnackbarClose}
-          autoHideDuration={4000}
+          autoHideDuration={2000}
         />
       </div>
     );

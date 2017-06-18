@@ -220,7 +220,7 @@ class EditMovement extends Component {
           open={this.state.showConfirmation}
           bodyStyle={snackbackStyles}
           message={this.state.confirmationMessage}
-          autoHideDuration={4000}
+          autoHideDuration={2000}
         />
       </div>
     );

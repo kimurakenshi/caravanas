@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+moment.locale('es');
+
 const DATE_FORMAT = 'Do MMMM YYYY, h:mm a';
 const DATE_EXPORT_FORMAT = 'DD-MM-YYYY-hhmm';
 

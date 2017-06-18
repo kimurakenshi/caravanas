@@ -37,7 +37,7 @@ class CreateMovement extends Component {
 
       setTimeout(() => {
         this.props.history.push(`/edit-movement/${nextProps.draftMovement.id}`);
-      }, 3000);
+      }, 2500);
     }
   }
 
@@ -83,7 +83,7 @@ class CreateMovement extends Component {
             open={this.state.showConfirmation}
             bodyStyle={snackbackStyles}
             message="El movimiento se guardó correctamente"
-            autoHideDuration={4000}
+            autoHideDuration={2000}
           />
         </div>
       </div>

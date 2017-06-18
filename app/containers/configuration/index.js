@@ -84,7 +84,7 @@ export default class Configuration extends Component {
           open={this.state.showConfirmation}
           bodyStyle={snackbackStyles}
           message={this.state.confirmationMessage}
-          autoHideDuration={3000}
+          autoHideDuration={2000}
         />
       </div>
     );
