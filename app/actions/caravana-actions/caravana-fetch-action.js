@@ -14,14 +14,15 @@ export function rejectFetchCaravana() {
   };
 }
 
-export function receiveFetchCaravana(caravanas) {
+export function receiveFetchCaravana(caravanas, searchTerm) {
   return {
     caravanas,
+    searchTerm,
     type: CARAVANA_FETCH_RECEIVED,
   };
 }
 
-export default function fetchCaravanas() {
+export default function fetchCaravanas(searchTerm = '') {
   return (dispatch, getState) => {
     dispatch(requestFetchCaravana());
 
@@ -29,7 +30,7 @@ export default function fetchCaravanas() {
 
     return getAllForCompany(settings.data.activeCompanyId)
       .then((json) => {
-        dispatch(receiveFetchCaravana(json));
+        dispatch(receiveFetchCaravana(json, searchTerm));
       })
 
       .catch((error) => {

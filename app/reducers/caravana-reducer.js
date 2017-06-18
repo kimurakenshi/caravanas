@@ -38,9 +38,20 @@ export default function caravanaReducer(state = initialState, action) {
     }
 
     case CARAVANA_FETCH_RECEIVED: {
+      let filteredCaravanas;
+      const search = action.searchTerm.toUpperCase().trim();
+
+      if (search !== '') {
+        filteredCaravanas = action.caravanas
+          .filter((caravana) => caravana.number.indexOf(search) !== -1)
+        ;
+      } else {
+        filteredCaravanas = action.caravanas;
+      }
+
       return {
         ...state,
-        caravanas: action.caravanas,
+        caravanas: filteredCaravanas,
         isFetching: false,
         error: null,
       };
