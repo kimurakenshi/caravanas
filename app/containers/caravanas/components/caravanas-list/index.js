@@ -130,65 +130,75 @@ class CaravanaList extends Component {
         )}
 
         {this.props.caravanas.length > 0 && (
-          <Table selectable={false}>
-            <TableHeader
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn style={{width: '200px'}}>Número</TableHeaderColumn>
-                {showDescription && (
-                  <TableHeaderColumn>Descripción</TableHeaderColumn>
-                )}
-                {showActions && (
-                  <TableHeaderColumn style={{ textAlign: 'center' }}>Acciones</TableHeaderColumn>
-                )}
-                {showAddToMovement && (
-                  <TableHeaderColumn
-                    style={{ textAlign: 'center', width: '100px' }}
-                  >
-                    Acciones
-                  </TableHeaderColumn>
-                )}
-              </TableRow>
-            </TableHeader>
+          <div>
+            <div className={styles['caravana-list-total']} >
+              Total: {this.props.caravanas.length}
+            </div>
 
-            <TableBody displayRowCheckbox={false}>
-              {this.props.caravanas.map((caravana) => {
-                return (
-                  <TableRow key={caravana.id}>
-                    <TableRowColumn style={{ width: '200px' }}>{caravana.number}</TableRowColumn>
-                    {showDescription && (
-                      <TableRowColumn>{caravana.description}</TableRowColumn>
-                    )}
-                    {showActions && (
-                      <TableRowColumn style={{ textAlign: 'center' }}>
-                        <IconButton iconStyle={{ color: '#00BCD4' }}>
-                          <ActionEdit onClick={() => { this.editCaravana(caravana.id); }} />
-                        </IconButton>
-                        <IconButton iconStyle={{ color: '#FF4081' }}>
-                          <ActionRemove onClick={() => { this.removeCaravana(caravana.id); }} />
-                        </IconButton>
-                      </TableRowColumn>
-                    )}
-                    {showAddToMovement && (
-                      <TableRowColumn style={{ textAlign: 'center', width: '100px' }}>
-                        <FlatButton
-                          label="Agregar"
-                          labelStyle={{ fontSize: '12px' }}
-                          labelPosition="before"
-                          onClick={() => this.props.addCaravanaToDraftMovement(caravana)}
-                          primary
-                          icon={<ActionForward />}
-                          style={styles.button}
-                        />
-                      </TableRowColumn>
-                    )}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+            <Table selectable={false}>
+              <TableHeader
+                adjustForCheckbox={false}
+                displaySelectAll={false}
+              >
+                <TableRow>
+                  <TableHeaderColumn style={{width: '200px'}}>Número</TableHeaderColumn>
+                  {showDescription && (
+                    <TableHeaderColumn>Descripción</TableHeaderColumn>
+                  )}
+                  {showActions && (
+                    <TableHeaderColumn style={{textAlign: 'center'}}>Acciones</TableHeaderColumn>
+                  )}
+                  {showAddToMovement && (
+                    <TableHeaderColumn
+                      style={{textAlign: 'center', width: '100px'}}
+                    >
+                      Acciones
+                    </TableHeaderColumn>
+                  )}
+                </TableRow>
+              </TableHeader>
+
+              <TableBody displayRowCheckbox={false}>
+                {this.props.caravanas.map((caravana) => {
+                  return (
+                    <TableRow key={caravana.id}>
+                      <TableRowColumn style={{width: '200px'}}>{caravana.number}</TableRowColumn>
+                      {showDescription && (
+                        <TableRowColumn>{caravana.description}</TableRowColumn>
+                      )}
+                      {showActions && (
+                        <TableRowColumn style={{textAlign: 'center'}}>
+                          <IconButton iconStyle={{color: '#00BCD4'}}>
+                            <ActionEdit onClick={() => {
+                              this.editCaravana(caravana.id);
+                            }}/>
+                          </IconButton>
+                          <IconButton iconStyle={{color: '#FF4081'}}>
+                            <ActionRemove onClick={() => {
+                              this.removeCaravana(caravana.id);
+                            }}/>
+                          </IconButton>
+                        </TableRowColumn>
+                      )}
+                      {showAddToMovement && (
+                        <TableRowColumn style={{textAlign: 'center', width: '100px'}}>
+                          <FlatButton
+                            label="Agregar"
+                            labelStyle={{fontSize: '12px'}}
+                            labelPosition="before"
+                            onClick={() => this.props.addCaravanaToDraftMovement(caravana)}
+                            primary
+                            icon={<ActionForward />}
+                            style={styles.button}
+                          />
+                        </TableRowColumn>
+                      )}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
         )}
 
         <Snackbar

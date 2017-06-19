@@ -52,23 +52,23 @@ class Movement extends Component {
 
           <div className={styles['movement-caravanas-list']}>
             <Table selectable={false}>
-            <TableHeader
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn style={{width: '200px'}}>Número</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody displayRowCheckbox={false}>
-              {this.props.movement.caravanas.map((caravana) => (
-                <TableRow key={caravana.id}>
-                  <TableRowColumn style={{width: '200px'}}>{caravana.number}</TableRowColumn>
+              <TableHeader
+                adjustForCheckbox={false}
+                displaySelectAll={false}
+              >
+                <TableRow>
+                  <TableHeaderColumn style={{width: '200px'}}>Número</TableHeaderColumn>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+
+              <TableBody displayRowCheckbox={false}>
+                {this.props.movement.caravanas.map((caravana) => (
+                  <TableRow key={caravana.id}>
+                    <TableRowColumn style={{width: '200px'}}>{caravana.number}</TableRowColumn>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>

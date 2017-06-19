@@ -26,35 +26,41 @@ class MovementCaravanaList extends Component {
         )}
 
         {this.props.draftMovement.caravanas.length > 0 && (
-          <Table selectable={false}>
-            <TableHeader
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn style={{ width: '200px' }}>Número</TableHeaderColumn>
-                {this.props.showDelete && (
-                  <TableHeaderColumn>Eliminar</TableHeaderColumn>
-                )}
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {this.props.draftMovement.caravanas.map((caravana) => (
-                <TableRow key={caravana.id}>
-                  <TableRowColumn style={{ width: '200px' }}>{caravana.number}</TableRowColumn>
+          <div>
+            <div className={styles['movement-caravana-list-total']}>
+              Total caravanas: {this.props.draftMovement.caravanas.length}
+            </div>
+
+            <Table selectable={false}>
+              <TableHeader
+                adjustForCheckbox={false}
+                displaySelectAll={false}
+              >
+                <TableRow>
+                  <TableHeaderColumn style={{width: '200px'}}>Número</TableHeaderColumn>
                   {this.props.showDelete && (
-                    <TableRowColumn>
-                      <IconButton iconStyle={{ color: '#FF4081' }}>
-                        <ActionRemove
-                          onClick={() => this.props.removeCaravanaFromDraftMovement(caravana.id)}
-                        />
-                      </IconButton>
-                    </TableRowColumn>
+                    <TableHeaderColumn>Eliminar</TableHeaderColumn>
                   )}
                 </TableRow>
+              </TableHeader>
+              <TableBody displayRowCheckbox={false}>
+                {this.props.draftMovement.caravanas.map((caravana) => (
+                  <TableRow key={caravana.id}>
+                    <TableRowColumn style={{width: '200px'}}>{caravana.number}</TableRowColumn>
+                    {this.props.showDelete && (
+                      <TableRowColumn>
+                        <IconButton iconStyle={{color: '#FF4081'}}>
+                          <ActionRemove
+                            onClick={() => this.props.removeCaravanaFromDraftMovement(caravana.id)}
+                          />
+                        </IconButton>
+                      </TableRowColumn>
+                    )}
+                  </TableRow>
                 ))}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+          </div>
         )}
       </div>
     );
